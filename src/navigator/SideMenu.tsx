@@ -19,19 +19,25 @@ export const SideMenu = () => {
     <Drawer.Navigator
       screenOptions={{
         // headerShown: false,
+        headerStyle: {
+          backgroundColor: '#007aff',
+        },
+        headerTintColor: '#FFF',
         drawerStyle: {
           //   backgroundColor: '#cbcbef',
           width: 300,
         },
       }}
       drawerContent={props => <InternalMenu {...props} />}>
-      <Drawer.Screen name="Tabs" component={MaterialBottomTabs} />
+      <Drawer.Screen name="MaterialBottomTabs" component={MaterialBottomTabs} />
       <Drawer.Screen
         name="ChangePasswordScreen"
+        options={{title: 'My App'}}
         component={ChangePasswordScreen}
       />
       <Drawer.Screen
         name="ChangeAppThemeScreen"
+        options={{title: 'My App'}}
         component={ChangeAppThemeScreen}
       />
       <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
@@ -56,7 +62,7 @@ const InternalMenu = ({navigation}: DrawerContentComponentProps) => {
       <View style={sideMenuStyles.menuContainer}>
         <TouchableOpacity
           style={sideMenuStyles.menuButton}
-          onPress={() => navigation.navigate('Tabs')}>
+          onPress={() => navigation.navigate('MaterialBottomTabs')}>
           <Icon style={sideMenuStyles.menuIcon} name="wallet-sharp" size={25} />
           <Text style={sideMenuStyles.menuText}>My Wallet</Text>
         </TouchableOpacity>
