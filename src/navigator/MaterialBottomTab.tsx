@@ -1,15 +1,17 @@
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import {HomeScreen} from '../screens/HomeScreen';
-import {SettingsScreen} from '../screens/SettingsScreen';
+import {AccountScreen} from '../screens/tabs/AccountScreen';
+import {LoansScreen} from '../screens/tabs/LoansScreen';
+import {PaymentScreen} from '../screens/tabs/PaymentScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export const MaterialBottomTabs = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Account" component={AccountScreen} />
+      <Tab.Screen name="Loans" component={LoansScreen} />
+      <Tab.Screen name="Payment" component={PaymentScreen} />
     </Tab.Navigator>
   );
 };

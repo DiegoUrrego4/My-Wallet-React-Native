@@ -1,8 +1,8 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {HomeScreen} from '../screens/HomeScreen';
-import {SettingsScreen} from '../screens/SettingsScreen';
+import {AccountScreen} from '../screens/tabs/AccountScreen';
+import {SettingsScreen} from '../screens/sidemenu/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,7 +12,7 @@ export const Tabs = () => {
       screenOptions={{
         tabBarActiveTintColor: 'purple',
       }}>
-      <Tab.Screen name="HomeScreen" component={HomeScreen} />
+      <Tab.Screen name="HomeScreen" component={AccountScreen} />
       <Tab.Screen name="SettingsScreen" component={SettingsScreen} />
     </Tab.Navigator>
   );
