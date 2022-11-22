@@ -12,14 +12,18 @@ export const sideMenuStyles = StyleSheet.create({
   },
   menuContainer: {
     marginVertical: 30,
-    marginHorizontal: 30,
+    marginHorizontal: 20,
   },
   username: {
     fontSize: 22,
     fontWeight: 'bold',
   },
   menuButton: {
+    flexDirection: 'row',
     marginVertical: 10,
+  },
+  menuIcon: {
+    marginRight: 40,
   },
   menuText: {
     fontSize: 20,

@@ -4,6 +4,7 @@ import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {SettingsScreen} from '../screens/sidemenu/SettingsScreen';
 import {Image, Text, View, TouchableOpacity} from 'react-native';
 import {MaterialBottomTabs} from './MaterialBottomTab';
@@ -20,7 +21,7 @@ export const SideMenu = () => {
         // headerShown: false,
         drawerStyle: {
           //   backgroundColor: '#cbcbef',
-          width: 240,
+          width: 300,
         },
       }}
       drawerContent={props => <InternalMenu {...props} />}>
@@ -56,24 +57,40 @@ const InternalMenu = ({navigation}: DrawerContentComponentProps) => {
         <TouchableOpacity
           style={sideMenuStyles.menuButton}
           onPress={() => navigation.navigate('Tabs')}>
+          <Icon style={sideMenuStyles.menuIcon} name="wallet-sharp" size={25} />
           <Text style={sideMenuStyles.menuText}>My Wallet</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={sideMenuStyles.menuButton}
           onPress={() => navigation.navigate('ChangePasswordScreen')}>
+          <Icon
+            style={sideMenuStyles.menuIcon}
+            name="lock-closed-sharp"
+            size={25}
+          />
           <Text style={sideMenuStyles.menuText}>Change Password</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={sideMenuStyles.menuButton}
           onPress={() => navigation.navigate('ChangeAppThemeScreen')}>
+          <Icon
+            style={sideMenuStyles.menuIcon}
+            name="color-palette-sharp"
+            size={25}
+          />
           <Text style={sideMenuStyles.menuText}>Change App Theme</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={sideMenuStyles.menuButton}
           onPress={() => console.log('LOGOUT')}>
+          <Icon
+            style={sideMenuStyles.menuIcon}
+            name="log-out-sharp"
+            size={25}
+          />
           <Text style={sideMenuStyles.menuText}>Logout</Text>
         </TouchableOpacity>
       </View>

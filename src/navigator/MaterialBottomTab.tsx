@@ -1,9 +1,9 @@
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {AccountScreen} from '../screens/tabs/AccountScreen';
 import {LoansScreen} from '../screens/tabs/LoansScreen';
 import {PaymentScreen} from '../screens/tabs/PaymentScreen';
-import {Text} from 'react-native';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -19,18 +19,18 @@ export const MaterialBottomTabs = () => {
           let iconName: string = '';
           switch (route.name) {
             case 'AccountScreen':
-              iconName = 'AC';
+              iconName = 'home-sharp';
               break;
 
             case 'LoansScreen':
-              iconName = 'LN';
+              iconName = 'cash-sharp';
               break;
 
             case 'PaymentScreen':
-              iconName = 'PM';
+              iconName = 'card-sharp';
               break;
           }
-          return <Text style={{color}}>{iconName}</Text>;
+          return <Icon name={iconName} size={25} color={color} />;
         },
       })}>
       <Tab.Screen
