@@ -1,7 +1,9 @@
 import {StyleSheet} from 'react-native';
 
 export const colores = {
-  primary: '#5856D6',
+  appColor: '#007aff',
+  appTextColor: '#FFF',
+  datesColor: '#989898',
 };
 
 export const styles = StyleSheet.create({

@@ -11,6 +11,7 @@ import {MaterialBottomTabs} from './MaterialBottomTab';
 import {sideMenuStyles} from '../theme/sideMenuTheme';
 import {ChangePasswordScreen} from '../screens/sidemenu/ChangePasswordScreen';
 import {ChangeAppThemeScreen} from '../screens/sidemenu/ChangeAppThemeScreen';
+import {colores} from '../theme/appTheme';
 
 const Drawer = createDrawerNavigator();
 
@@ -20,11 +21,11 @@ export const SideMenu = () => {
       screenOptions={{
         // headerShown: false,
         headerStyle: {
-          backgroundColor: '#007aff',
+          backgroundColor: colores.appColor,
+          elevation: 0,
         },
-        headerTintColor: '#FFF',
+        headerTintColor: colores.appTextColor,
         drawerStyle: {
-          //   backgroundColor: '#cbcbef',
           width: 300,
         },
       }}
@@ -56,6 +57,10 @@ const InternalMenu = ({navigation}: DrawerContentComponentProps) => {
           }}
           style={sideMenuStyles.avatar}
         />
+        {/* <Image
+          source={require('../../assets/avatar.png')}
+          style={sideMenuStyles.avatar}
+        /> */}
         <Text style={sideMenuStyles.username}>User Name</Text>
       </View>
       {/* Opciones de Menú */}
