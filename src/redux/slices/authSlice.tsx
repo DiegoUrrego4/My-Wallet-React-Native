@@ -23,10 +23,13 @@ export const counterSlice = createSlice({
       state.isAuth = true;
       state.isLoading = false;
     },
+    setLogout: state => {
+      state.isAuth = false;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {setLogin, setToken} = counterSlice.actions;
+export const {setLogin, setToken, setLogout} = counterSlice.actions;
 
 export default counterSlice.reducer;
