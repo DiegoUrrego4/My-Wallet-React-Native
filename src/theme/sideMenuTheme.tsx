@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native';
 
 export const sideMenuStyles = StyleSheet.create({
+  userOptionsContainer: {
+    flex: 2,
+  },
   avatarContainer: {
     alignItems: 'center',
     marginTop: 20,
@@ -27,5 +30,13 @@ export const sideMenuStyles = StyleSheet.create({
   },
   menuText: {
     fontSize: 20,
+  },
+  logoContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  appLogo: {
+    marginVertical: 20,
   },
 });

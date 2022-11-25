@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-export const colores = {
+export const colors = {
   appColor: '#007aff',
   appTextColor: '#FFF',
   datesColor: '#989898',
