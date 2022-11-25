@@ -10,11 +10,13 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-native-masked-view/masked-view": "^0.2.8",
     "@react-navigation/bottom-tabs": "^6.4.1",
     "@react-navigation/drawer": "^6.5.1",
     "@react-navigation/material-bottom-tabs": "^6.2.5",
     "@react-navigation/native": "^6.0.14",
     "@react-navigation/native-stack": "^6.9.2",
+    "@react-navigation/stack": "^6.3.5",
     "@reduxjs/toolkit": "^1.9.0",
     "react": "17.0.2",
     "react-native": "0.68.2",

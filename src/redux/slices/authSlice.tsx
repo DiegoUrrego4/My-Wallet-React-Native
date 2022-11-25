@@ -27,6 +27,6 @@ export const counterSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {setLogin} = counterSlice.actions;
+export const {setLogin, setToken} = counterSlice.actions;
 
 export default counterSlice.reducer;

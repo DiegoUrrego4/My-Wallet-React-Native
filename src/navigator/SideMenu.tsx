@@ -12,12 +12,15 @@ import {sideMenuStyles} from '../theme/sideMenuTheme';
 import {ChangePasswordScreen} from '../screens/sidemenu/ChangePasswordScreen';
 import {ChangeAppThemeScreen} from '../screens/sidemenu/ChangeAppThemeScreen';
 import {colores} from '../theme/appTheme';
+import {AuthNavigation} from './AuthNavigation';
+import {LoginPasswordScreen} from '../screens/auth/LoginPasswordScreen';
 
 const Drawer = createDrawerNavigator();
 
 export const SideMenu = () => {
   return (
     <Drawer.Navigator
+      initialRouteName="AuthNavigation"
       screenOptions={{
         // headerShown: false,
         headerStyle: {
@@ -30,6 +33,17 @@ export const SideMenu = () => {
         },
       }}
       drawerContent={props => <InternalMenu {...props} />}>
+      {/* Logueo */}
+      <Drawer.Screen
+        options={{headerShown: false, swipeEnabled: false}}
+        name="AuthNavigation"
+        component={AuthNavigation}
+      />
+      <Drawer.Screen
+        options={{headerShown: false, swipeEnabled: false}}
+        name="LoginPasswordScreen"
+        component={LoginPasswordScreen}
+      />
       <Drawer.Screen name="MaterialBottomTabs" component={MaterialBottomTabs} />
       <Drawer.Screen
         name="ChangePasswordScreen"
