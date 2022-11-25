@@ -30,6 +30,7 @@ export const Movement = ({
         <Text style={accountStyles.movementDate}>{date}</Text>
       </View>
       <Text
+        // eslint-disable-next-line react-native/no-inline-styles
         style={{
           ...accountStyles.movementAmmount,
           color: typeOfMovement === 'income' ? 'green' : 'red',

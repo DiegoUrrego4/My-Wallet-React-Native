@@ -28,6 +28,13 @@ export const AccountScreen = () => {
             typeOfMovement={'outcome'}
           />
           <Movement
+            imageUrl="https://newprofilepic2.photo-cdn.net//assets/images/article/profile.jpg"
+            movementFor={'Pago cuota Spotify'}
+            date={'10:03 AM - 20/10/2022'}
+            quantity={'15.000'}
+            typeOfMovement={'income'}
+          />
+          <Movement
             imageUrl="https://yt3.ggpht.com/IVxTRvV6MT7s6JpiTqTyX0YqrxUpBRaaW9muCxc0vTc-wj1EqykkPt3hFETy5TbdWIM6iKu0Cg=s900-c-k-c0x00ffffff-no-rj"
             movementFor={'Pago tarjeta de crédito'}
             date={'09:02 AM - 01/10/2022'}
@@ -36,7 +43,7 @@ export const AccountScreen = () => {
           />
           <Movement
             imageUrl="https://cdn-icons-png.flaticon.com/512/181/181095.png"
-            movementFor={'Prestamo app My Wallet'}
+            movementFor={'Prestamo My Wallet'}
             date={'07:52 AM - 15/09/2022'}
             quantity={'500.000'}
             typeOfMovement={'income'}

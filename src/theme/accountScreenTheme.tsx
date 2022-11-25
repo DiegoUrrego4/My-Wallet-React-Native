@@ -9,12 +9,12 @@ export const accountStyles = StyleSheet.create({
   balanceContainer: {
     flex: 1,
     backgroundColor: colores.appColor,
-    borderBottomRightRadius: 130,
-    borderBottomStartRadius: 20,
+    borderBottomRightRadius: 180,
+    width: 420,
   },
   balanceMoney: {
     color: colores.appTextColor,
-    fontSize: 60,
+    fontSize: 58,
     marginHorizontal: 20,
     marginVertical: 15,
   },
