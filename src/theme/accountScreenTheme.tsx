@@ -10,7 +10,8 @@ export const accountStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: colores.appColor,
     borderBottomRightRadius: 180,
-    width: 420,
+    // borderBottomLeftRadius: 50,
+    // width: 420,
   },
   balanceMoney: {
     color: colores.appTextColor,
