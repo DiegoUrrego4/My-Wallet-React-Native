@@ -6,6 +6,10 @@ export const loansStyles = StyleSheet.create({
     marginHorizontal: 20,
     // marginVertical: 10,
   },
+  singlePagesContainer: {
+    marginHorizontal: 20,
+    marginVertical: 15,
+  },
   amountContainer: {
     // backgroundColor: 'red',
     flexDirection: 'row',
@@ -40,11 +44,33 @@ export const loansStyles = StyleSheet.create({
     backgroundColor: colors.appColor,
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 15,
+    marginTop: 15,
+    marginBottom: 10,
     borderRadius: 5,
+  },
+  cancelButton: {
+    width: 360,
+    height: 50,
+    backgroundColor: colors.appTextColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.43,
+    shadowRadius: 9.51,
+
+    elevation: 15,
   },
   buttonText: {
     color: colors.appTextColor,
+    fontSize: 17,
+  },
+  cancelButtonText: {
+    color: 'black',
     fontSize: 17,
   },
   accountContainer: {

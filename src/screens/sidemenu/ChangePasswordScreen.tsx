@@ -1,6 +1,14 @@
 import React, {useEffect} from 'react';
-import {View, Text, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  BackHandler,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import {MyStackScreenProps} from '../../interfaces/MyStackScreenProps';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {loansStyles} from '../../theme/loansTheme';
 
 export const ChangePasswordScreen = ({navigation}: MyStackScreenProps) => {
   useEffect(() => {
@@ -23,8 +31,30 @@ export const ChangePasswordScreen = ({navigation}: MyStackScreenProps) => {
     return () => backHandler.remove();
   }, [navigation]);
   return (
-    <View>
-      <Text>ChangePasswordScreen</Text>
+    <View style={loansStyles.singlePagesContainer}>
+      <View style={loansStyles.inputContainer}>
+        <Icon name="lock-open-outline" size={30} />
+        <TextInput style={loansStyles.input} placeholder="Current Password" />
+      </View>
+      <View style={loansStyles.inputContainer}>
+        <Icon name="lock-closed-outline" size={30} />
+        <TextInput style={loansStyles.input} placeholder="New Password" />
+      </View>
+      <View style={loansStyles.inputContainer}>
+        <Icon name="lock-closed-outline" size={30} />
+        <TextInput
+          style={loansStyles.input}
+          placeholder="Retype new password"
+        />
+      </View>
+      <TouchableOpacity style={loansStyles.button}>
+        <Text style={loansStyles.buttonText}>Change password</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={loansStyles.cancelButton}
+        onPress={() => navigation.navigate('MaterialBottomTabs')}>
+        <Text style={loansStyles.cancelButtonText}>Cancelar</Text>
+      </TouchableOpacity>
     </View>
   );
 };
