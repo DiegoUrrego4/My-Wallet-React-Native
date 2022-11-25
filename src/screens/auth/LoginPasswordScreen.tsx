@@ -10,10 +10,7 @@ export const LoginPasswordScreen = ({navigation}: MyStackScreenProps) => {
   const {isAuth} = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    // isAuth && navigation.navigate('MaterialBottomTabs');
-    if (isAuth) {
-      navigation.navigate('MaterialBottomTabs');
-    }
+    isAuth && navigation.navigate('MaterialBottomTabs');
   }, [isAuth, navigation]);
 
   const handleLogin = () => {

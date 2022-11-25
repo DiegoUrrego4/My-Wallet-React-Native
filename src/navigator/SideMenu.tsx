@@ -11,7 +11,7 @@ import {MaterialBottomTabs} from './MaterialBottomTab';
 import {sideMenuStyles} from '../theme/sideMenuTheme';
 import {ChangePasswordScreen} from '../screens/sidemenu/ChangePasswordScreen';
 import {ChangeAppThemeScreen} from '../screens/sidemenu/ChangeAppThemeScreen';
-import {colores} from '../theme/appTheme';
+import {colors} from '../theme/appTheme';
 import {AuthNavigation} from './AuthNavigation';
 import {LoginPasswordScreen} from '../screens/auth/LoginPasswordScreen';
 
@@ -22,12 +22,11 @@ export const SideMenu = () => {
     <Drawer.Navigator
       initialRouteName="AuthNavigation"
       screenOptions={{
-        // headerShown: false,
         headerStyle: {
-          backgroundColor: colores.appColor,
+          backgroundColor: colors.appColor,
           elevation: 0,
         },
-        headerTintColor: colores.appTextColor,
+        headerTintColor: colors.appTextColor,
         drawerStyle: {
           width: 300,
         },

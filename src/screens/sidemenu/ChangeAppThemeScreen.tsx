@@ -6,8 +6,10 @@ export const ChangeAppThemeScreen = ({navigation}: MyStackScreenProps) => {
   useEffect(() => {
     const backAction = () => {
       if (navigation.isFocused()) {
-        navigation.navigate('MaterialBottomTabs'); // Navego hacia un navegador por defecto
-        // BackHandler.exitApp(); // Me salgo de la APP
+        // Navego hacia un navegador por defecto
+        navigation.navigate('MaterialBottomTabs');
+        // Me salgo de la APP
+        // BackHandler.exitApp();
         return true;
       } else {
         return false;

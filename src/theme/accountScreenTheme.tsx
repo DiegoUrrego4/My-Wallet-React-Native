@@ -1,35 +1,31 @@
 import {StyleSheet} from 'react-native';
-import {colores} from './appTheme';
+import {colors} from './appTheme';
 
 export const accountStyles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    backgroundColor: colores.appTextColor,
+    backgroundColor: colors.appTextColor,
   },
   balanceContainer: {
     flex: 1,
-    backgroundColor: colores.appColor,
+    backgroundColor: colors.appColor,
     borderBottomRightRadius: 180,
-    // borderBottomLeftRadius: 50,
-    // width: 420,
   },
   balanceMoney: {
-    color: colores.appTextColor,
+    color: colors.appTextColor,
     fontSize: 58,
     marginHorizontal: 20,
     marginVertical: 15,
   },
   balanceText: {
-    color: colores.appTextColor,
+    color: colors.appTextColor,
     fontSize: 15,
     marginHorizontal: 20,
   },
   movementsContainer: {
     flex: 2,
-    // backgroundColor: 'purple',
   },
   componentMovement: {
-    // backgroundColor: 'green',
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginVertical: 20,
@@ -45,7 +41,7 @@ export const accountStyles = StyleSheet.create({
   },
   movementDate: {
     fontSize: 13,
-    color: colores.datesColor,
+    color: colors.datesColor,
   },
   movementAmmount: {
     fontSize: 18,
