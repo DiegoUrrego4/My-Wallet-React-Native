@@ -36,14 +36,30 @@ export const loansStyles = StyleSheet.create({
   },
   button: {
     width: 360,
-    height: 40,
+    height: 50,
     backgroundColor: colors.appColor,
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 15,
+    borderRadius: 5,
   },
   buttonText: {
     color: colors.appTextColor,
-    fontSize: 15,
+    fontSize: 17,
+  },
+  accountContainer: {
+    // backgroundColor: 'red',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  accountValue: {
+    fontSize: 45,
+  },
+  accountText: {
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
+  inputsContainer: {
+    marginVertical: 15,
   },
 });
