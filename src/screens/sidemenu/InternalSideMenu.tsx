@@ -35,17 +35,6 @@ export const InternalSideMenu = ({
         <View style={sideMenuStyles.menuContainer}>
           <TouchableOpacity
             style={sideMenuStyles.menuButton}
-            onPress={() => navigation.navigate('MaterialBottomTabs')}>
-            <Icon
-              style={sideMenuStyles.menuIcon}
-              name="wallet-sharp"
-              size={25}
-            />
-            <Text style={sideMenuStyles.menuText}>My Wallet</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={sideMenuStyles.menuButton}
             onPress={() => navigation.navigate('ChangePasswordScreen')}>
             <Icon
               style={sideMenuStyles.menuIcon}
