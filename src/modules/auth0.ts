@@ -6,4 +6,7 @@ const auth = new Auth0({
   domain: Config.AUTH0_DOMAIN,
 });
 
+export const CONNECTION = 'Username-Password-Authentication';
+export const AUDIENCE = `https://${Config.AUTH0_DOMAIN}/api/v2`;
+
 export default auth;

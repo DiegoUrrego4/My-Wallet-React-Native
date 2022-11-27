@@ -3,13 +3,16 @@ import {View, Image, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {sideMenuStyles} from '../../theme/sideMenuTheme';
 import {MyDrawerContentComponentProps} from '../../interfaces/MyDraweComponentProps';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setLogout} from '../../redux/slices/authSlice';
+import {RootState} from '../../redux/store/store';
 
 export const InternalSideMenu = ({
   navigation,
 }: MyDrawerContentComponentProps) => {
   const dispatch = useDispatch();
+  const {userData} = useSelector((state: RootState) => state.auth);
+  const {name, picture} = userData;
   const handleLogout = () => {
     dispatch(setLogout());
     navigation.navigate('LoginPasswordScreen');
@@ -19,17 +22,12 @@ export const InternalSideMenu = ({
       <View style={sideMenuStyles.userOptionsContainer}>
         {/* Conatiner Avatar */}
         <View style={sideMenuStyles.avatarContainer}>
-          <Image
-            source={{
-              uri: 'https://avatarairlines.com/wp-content/uploads/2020/05/Male-placeholder.jpeg',
-            }}
-            style={sideMenuStyles.avatar}
-          />
+          <Image source={{uri: picture}} style={sideMenuStyles.avatar} />
           {/* <Image
       source={require('../../assets/avatar.png')}
       style={sideMenuStyles.avatar}
     /> */}
-          <Text style={sideMenuStyles.username}>User Name</Text>
+          <Text style={sideMenuStyles.username}>{name}</Text>
         </View>
         {/* Opciones de Menú */}
         <View style={sideMenuStyles.menuContainer}>

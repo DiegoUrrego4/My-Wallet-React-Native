@@ -6,7 +6,7 @@ export const loginStyles = StyleSheet.create({
     flex: 1,
   },
   imageContainer: {
-    flex: 4,
+    flex: 1,
     // backgroundColor: 'pink',
     justifyContent: 'center',
     alignItems: 'center',
@@ -22,7 +22,7 @@ export const loginStyles = StyleSheet.create({
     color: 'black',
   },
   midContainer: {
-    flex: 3,
+    flex: 0.5,
     // backgroundColor: 'orange',
     justifyContent: 'center',
     alignItems: 'center',
@@ -46,6 +46,7 @@ export const loginStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
+    marginVertical: 20,
   },
   buttonText: {
     color: colors.appTextColor,
