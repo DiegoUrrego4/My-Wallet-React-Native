@@ -6,7 +6,7 @@ import {MyStackScreenProps} from '../../interfaces/MyStackScreenProps';
 // import {setLogin, setToken} from '../../redux/slices/authSlice';
 import {RootState} from '../../redux/store/store';
 import {loginStyles} from '../../theme/loginScreensTheme';
-import {getCredentials} from '../../hooks/thunk';
+import {getCredentials} from '../../hooks/thunks';
 import {ActivityIndicator} from 'react-native-paper';
 
 export const LoginPasswordScreen = ({navigation}: MyStackScreenProps) => {

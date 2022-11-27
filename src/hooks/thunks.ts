@@ -2,7 +2,7 @@
 import Auth0 from 'react-native-auth0';
 import SInfo from 'react-native-sensitive-info';
 import jwtDecode from 'jwt-decode';
-import {setLogin, startLogin} from '../redux/slices/authSlice';
+import {setLogin, setLogout, startLogin} from '../redux/slices/authSlice';
 
 const auth0 = new Auth0({
   domain: 'dev-gsziwkfju7op66gz.us.auth0.com',
@@ -38,6 +38,19 @@ export const getCredentials = () => {
       dispatch(startLogin());
       dispatch(setLogin({name: user_data.name, picture: user_data.picture}));
       // console.log('user_data :>> ', user_data);
+    } catch (error) {
+      console.log('ERROR', error);
+    }
+  };
+};
+
+export const deleteCredentials = () => {
+  return async (dispatch: any) => {
+    try {
+      await auth0.webAuth.clearSession();
+      await SInfo.deleteItem('idToken', {});
+      dispatch(startLogin());
+      dispatch(setLogout());
     } catch (error) {
       console.log('ERROR', error);
     }

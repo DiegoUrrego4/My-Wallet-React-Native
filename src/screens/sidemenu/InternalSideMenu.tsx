@@ -4,8 +4,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {sideMenuStyles} from '../../theme/sideMenuTheme';
 import {MyDrawerContentComponentProps} from '../../interfaces/MyDraweComponentProps';
 import {useDispatch, useSelector} from 'react-redux';
-import {setLogout} from '../../redux/slices/authSlice';
+// import {setLogout} from '../../redux/slices/authSlice';
 import {RootState} from '../../redux/store/store';
+import {deleteCredentials} from '../../hooks/thunks';
 
 export const InternalSideMenu = ({
   navigation,
@@ -14,8 +15,9 @@ export const InternalSideMenu = ({
   const {userData} = useSelector((state: RootState) => state.auth);
   const {name, picture} = userData;
   const handleLogout = () => {
-    dispatch(setLogout());
+    // dispatch(setLogout());
     navigation.navigate('LoginPasswordScreen');
+    dispatch(deleteCredentials());
   };
   return (
     <>
