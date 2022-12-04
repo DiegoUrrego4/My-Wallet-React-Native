@@ -40,7 +40,7 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
         <ScrollView>
           <Movement
             imageUrl="https://yt3.ggpht.com/ytc/AMLnZu8QsSEu3Mi6gXxvOK6gRy8u-yjLhbdLYfOi7cz0=s900-c-k-c0x00ffffff-no-rj"
-            movementFor={'Pago de salario'}
+            movementFor={'Pago de salario sofka'}
             date={'03:35 PM - 06/11/2022'}
             quantity={'3.650.000'}
             typeOfMovement={'income'}

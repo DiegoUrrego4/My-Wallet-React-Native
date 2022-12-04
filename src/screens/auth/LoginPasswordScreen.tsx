@@ -1,27 +1,18 @@
 import React, {useEffect} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
-// import Icon from 'react-native-vector-icons/Ionicons';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {MyStackScreenProps} from '../../interfaces/MyStackScreenProps';
-// import {setLogin, setToken} from '../../redux/slices/authSlice';
 import {RootState} from '../../redux/store/store';
 import {loginStyles} from '../../theme/loginScreensTheme';
-import {getCredentials} from '../../hooks/thunks';
-import {ActivityIndicator} from 'react-native-paper';
+import {getCredentials, useAppDispatch} from '../../hooks';
 
 export const LoginPasswordScreen = ({navigation}: MyStackScreenProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {isAuth} = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     isAuth && navigation.navigate('MaterialBottomTabs');
   }, [isAuth, navigation]);
-
-  // const handleLogin = () => {
-  //   dispatch(setToken('tokenABC'));
-  //   dispatch(setLogin());
-  //   console.log('isAuth', isAuth);
-  // };
 
   return (
     <View style={loginStyles.mainContainer}>
@@ -35,7 +26,6 @@ export const LoginPasswordScreen = ({navigation}: MyStackScreenProps) => {
           <Text style={loginStyles.userInformationText}>
             Login or sign up for free.
           </Text>
-          {/* <TextInput style={loginStyles.input} placeholder="Password" /> */}
           <TouchableOpacity
             style={loginStyles.button}
             onPress={() => navigation.navigate('LoginPasswordScreen')}>
@@ -47,24 +37,6 @@ export const LoginPasswordScreen = ({navigation}: MyStackScreenProps) => {
           </TouchableOpacity>
         </View>
       </View>
-      {/* <View style={loginStyles.bottomContainer}>
-        <Text style={loginStyles.registerText}>or use</Text>
-        <TouchableOpacity style={loginStyles.platformsSignIn}>
-          <Image
-            style={loginStyles.googleImage}
-            source={require('../../../assets/logo-google.png')}
-          />
-          <Text style={loginStyles.platformsSignInText}>
-            Sign in with Google
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={loginStyles.platformsSignIn}>
-          <Icon name="logo-apple" size={20} />
-          <Text style={loginStyles.platformsSignInText}>
-            Sign in with Apple
-          </Text>
-        </TouchableOpacity>
-      </View> */}
     </View>
   );
 };

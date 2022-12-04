@@ -12,6 +12,7 @@ const auth0 = new Auth0({
 const getUserData = async (id?: string) => {
   // Saco el token del SInfo, algo que deberíamos cambiar por el Redux
   const idToken = id ? id : await SInfo.getItem('idToken', {});
+  console.log('idToken :>> ', idToken);
   // Decodifico el token (JWT)
   const {name, picture, exp} = jwtDecode<any>(idToken);
   const data = jwtDecode<any>(idToken);
