@@ -142,6 +142,7 @@ android {
 
     defaultConfig {
         applicationId "com.mywallet"
+        manifestPlaceholders = [auth0Domain: "dev-gsziwkfju7op66gz.us.auth0.com", auth0Scheme: "${applicationId}"]
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

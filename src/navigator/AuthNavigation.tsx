@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {LoginUserScreen} from '../screens/auth/LoginUserScreen';
+// import {LoginUserScreen} from '../screens/auth/LoginUserScreen';
 import {LoginPasswordScreen} from '../screens/auth/LoginPasswordScreen';
 
 const Stack = createStackNavigator<any>();
@@ -18,7 +18,7 @@ export const AuthNavigation = () => {
           backgroundColor: 'white',
         },
       }}>
-      <Stack.Screen name="LoginScreenUser" component={LoginUserScreen} />
+      {/* <Stack.Screen name="LoginScreenUser" component={LoginUserScreen} /> */}
       <Stack.Screen
         name="LoginPasswordScreen"
         component={LoginPasswordScreen}
