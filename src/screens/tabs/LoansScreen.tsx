@@ -1,9 +1,34 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {loansStyles} from '../../theme/loansTheme';
+// import walletDB from '../../api/walletDB';
+// import {ClientResponse} from '../../interfaces/clientsInterface';
 
 export const LoansScreen = () => {
+  const [apiResponse, setApiResponse] = useState<any>({
+    clients: [],
+  });
+  const getData = async () => {
+    console.log('getData');
+    // const response = await walletDB.get<ClientResponse>('/clients');
+    const res = await fetch('http://192.168.1.25:3000/api/v1/clients');
+    const data = await res.json();
+    setApiResponse({
+      clients: data,
+    });
+    console.log(data);
+  };
+
+  // useEffect(() => {
+  //   console.log('useEffect');
+  //   await getData();
+  // });
+
+  useEffect(() => {
+    getData();
+  });
+
   return (
     <View style={loansStyles.mainContainer}>
       <View style={loansStyles.amountContainer}>
@@ -24,6 +49,9 @@ export const LoansScreen = () => {
       <TouchableOpacity style={loansStyles.button}>
         <Text style={loansStyles.buttonText}>Apply for loan</Text>
       </TouchableOpacity>
+      <View>
+        <Text>{JSON.stringify(apiResponse, null, 3)}</Text>
+      </View>
     </View>
   );
 };
