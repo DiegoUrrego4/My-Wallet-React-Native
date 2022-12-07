@@ -14,7 +14,7 @@ const getUserData = async (id?: string) => {
   const idToken = id ? id : await SInfo.getItem('idToken', {});
   console.log('idToken :>> ', idToken);
   // Decodifico el token (JWT)
-  const {name, picture, exp} = jwtDecode<any>(idToken);
+  const {name, picture, exp, email} = jwtDecode<any>(idToken);
   const data = jwtDecode<any>(idToken);
   console.log('data JWT', JSON.stringify(data, null, 2));
 
@@ -23,12 +23,14 @@ const getUserData = async (id?: string) => {
   }
 
   return {
-    name,
-    picture,
+    fullName: name,
+    photo: picture,
+    email,
   };
 };
 
 export const getCredentials = () => {
+  const baseURL = 'http://192.168.1.25:3000/api/v1';
   return async (dispatch: any) => {
     try {
       const credentials = await auth0.webAuth.authorize({
@@ -36,8 +38,29 @@ export const getCredentials = () => {
       });
       await SInfo.setItem('idToken', credentials.idToken, {});
       const user_data = await getUserData(credentials.idToken);
+      const clientComplete = {...user_data, phone: '1234567890'};
       dispatch(startLogin());
-      dispatch(setLogin({name: user_data.name, picture: user_data.picture}));
+      // Petición HTTP
+      try {
+        await fetch(`${baseURL}/clients/signup`, {
+          method: 'POST',
+          body: JSON.stringify(clientComplete),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+
+      // console.log('user_data :>> ', user_data);
+      dispatch(
+        setLogin({
+          name: user_data.fullName,
+          picture: user_data.photo,
+          email: user_data.email,
+        }),
+      );
       // console.log('user_data :>> ', user_data);
     } catch (error) {
       console.log('ERROR', error);
@@ -50,7 +73,7 @@ export const deleteCredentials = () => {
     try {
       await auth0.webAuth.clearSession();
       await SInfo.deleteItem('idToken', {});
-      dispatch(startLogin());
+      // dispatch(startLogin());
       dispatch(setLogout());
     } catch (error) {
       console.log('ERROR', error);

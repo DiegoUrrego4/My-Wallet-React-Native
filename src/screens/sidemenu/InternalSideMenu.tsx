@@ -14,8 +14,8 @@ export const InternalSideMenu = ({
   const {userData} = useSelector((state: RootState) => state.auth);
   const {name, picture} = userData;
   const handleLogout = () => {
-    dispatch(deleteCredentials());
     navigation.navigate('LoginPasswordScreen');
+    dispatch(deleteCredentials());
   };
   return (
     <>

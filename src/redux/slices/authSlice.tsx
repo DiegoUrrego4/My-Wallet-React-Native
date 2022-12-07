@@ -4,6 +4,7 @@ import type {PayloadAction} from '@reduxjs/toolkit';
 interface UserData {
   name: string;
   picture: string;
+  email: string;
 }
 export interface CounterState {
   token?: string;
@@ -19,6 +20,7 @@ const initialState: CounterState = {
     name: '',
     picture:
       'https://www.belizeplanners.org/wp-content/uploads/2016/01/male-placeholder.jpg',
+    email: '',
   },
 };
 
@@ -43,6 +45,7 @@ export const counterSlice = createSlice({
       state.userData.name = '';
       state.userData.picture =
         'https://www.belizeplanners.org/wp-content/uploads/2016/01/male-placeholder.jpg';
+      state.isLoading = false;
     },
   },
 });
