@@ -40,6 +40,14 @@ export const getCredentials = () => {
       const user_data = await getUserData(credentials.idToken);
       const clientComplete = {...user_data, phone: '1234567890'};
       dispatch(startLogin());
+      console.log('user_data THUNK :>> ', user_data);
+      dispatch(
+        setLogin({
+          name: user_data.fullName,
+          picture: user_data.photo,
+          email: user_data.email,
+        }),
+      );
       // Petición HTTP
       try {
         await fetch(`${baseURL}/clients/signup`, {
@@ -53,14 +61,6 @@ export const getCredentials = () => {
         console.log(error);
       }
 
-      // console.log('user_data :>> ', user_data);
-      dispatch(
-        setLogin({
-          name: user_data.fullName,
-          picture: user_data.photo,
-          email: user_data.email,
-        }),
-      );
       // console.log('user_data :>> ', user_data);
     } catch (error) {
       console.log('ERROR', error);

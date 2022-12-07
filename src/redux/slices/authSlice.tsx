@@ -38,6 +38,7 @@ export const counterSlice = createSlice({
       state.isAuth = true;
       state.userData.name = action.payload.name;
       state.userData.picture = action.payload.picture;
+      state.userData.email = action.payload.email;
       state.isLoading = false;
     },
     setLogout: state => {
