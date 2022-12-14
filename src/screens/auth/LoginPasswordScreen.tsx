@@ -8,21 +8,28 @@ import {getCredentials, useAppDispatch} from '../../hooks';
 
 export const LoginPasswordScreen = ({navigation}: MyStackScreenProps) => {
   const dispatch = useAppDispatch();
-  const {isAuth} = useSelector((state: RootState) => state.auth);
+  const {isAuth, userData, register} = useSelector(
+    (state: RootState) => state.auth,
+  );
 
   useEffect(() => {
-    isAuth && navigation.navigate('MaterialBottomTabs');
-  }, [isAuth, navigation]);
+    console.log('useEffect LoginPasswordScreen');
+    console.log('LoginPasswordScreen register', register);
+    register && navigation.navigate('MaterialBottomTabs');
+    isAuth && navigation.navigate('LoginUserScreen');
+    // verifyClient();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuth, userData, navigation]);
 
   return (
     <View style={loginStyles.mainContainer}>
-      <View style={loginStyles.imageContainer}>
+      <View style={loginStyles.inputContainer}>
         <Image
           style={loginStyles.logo}
           source={require('../../../assets/MUIIcon.png')}
         />
         <Text style={loginStyles.logoText}>MY WALLET APP</Text>
-        <View style={loginStyles.midContainer}>
+        <View style={loginStyles.loginDataContainer}>
           <Text style={loginStyles.userInformationText}>
             Login or sign up for free.
           </Text>

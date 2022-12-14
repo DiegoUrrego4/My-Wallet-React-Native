@@ -2,12 +2,21 @@
 import Auth0 from 'react-native-auth0';
 import SInfo from 'react-native-sensitive-info';
 import jwtDecode from 'jwt-decode';
-import {setLogin, setLogout, startLogin} from '../redux/slices/authSlice';
+import {
+  setAuth,
+  setLogin,
+  setLogout,
+  setRegister,
+  startLogin,
+  UserData,
+} from '../redux/slices/authSlice';
+// import {useFetch} from './useFetch';
 
 const auth0 = new Auth0({
   domain: 'dev-gsziwkfju7op66gz.us.auth0.com',
   clientId: 'n7ppQ2UQlYlV7m6XrKyO4Fy8GapGwGVO',
 });
+const baseURL = 'http://192.168.1.25:3000/api/v1';
 
 const getUserData = async (id?: string) => {
   // Saco el token del SInfo, algo que deberíamos cambiar por el Redux
@@ -30,7 +39,6 @@ const getUserData = async (id?: string) => {
 };
 
 export const getCredentials = () => {
-  const baseURL = 'http://192.168.1.25:3000/api/v1';
   return async (dispatch: any) => {
     try {
       const credentials = await auth0.webAuth.authorize({
@@ -38,7 +46,7 @@ export const getCredentials = () => {
       });
       await SInfo.setItem('idToken', credentials.idToken, {});
       const user_data = await getUserData(credentials.idToken);
-      const clientComplete = {...user_data, phone: '1234567890'};
+      // const clientComplete = {...user_data, phone: '1234567890'};
       dispatch(startLogin());
       console.log('user_data THUNK :>> ', user_data);
       dispatch(
@@ -48,20 +56,15 @@ export const getCredentials = () => {
           email: user_data.email,
         }),
       );
-      // Petición HTTP
-      try {
-        await fetch(`${baseURL}/clients/signup`, {
-          method: 'POST',
-          body: JSON.stringify(clientComplete),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
+      dispatch(setAuth());
+      // TODO: Peticiones HTTP
+      // Buscar si el usuario existe
+      const clientExist = await findDBClient(user_data.email);
+      console.log('clientExist', clientExist);
 
-      // console.log('user_data :>> ', user_data);
+      if (clientExist) {
+        dispatch(setRegister(true));
+      }
     } catch (error) {
       console.log('ERROR', error);
     }
@@ -77,6 +80,54 @@ export const deleteCredentials = () => {
       dispatch(setLogout());
     } catch (error) {
       console.log('ERROR', error);
+    }
+  };
+};
+
+const findDBClient = async (clientEmail: string) => {
+  try {
+    const resp = await fetch(`${baseURL}/clients/${clientEmail}`);
+    const data = await resp.json();
+    if (data.message) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (error) {
+    console.log('Error', error);
+  }
+};
+
+export const createClient = (userData: UserData) => {
+  console.log('createClient disparado!');
+  const {name, email, phone, picture} = userData;
+  console.log('userData - createClient', userData);
+  return async (dispatch: any) => {
+    // try {
+    dispatch(
+      setLogin({
+        name,
+        email,
+        phone,
+        picture,
+      }),
+    );
+    // dispatch(setAuth());
+    // TODO: Peticiones HTTP - Crear cliente
+    try {
+      console.log('ENTRANDO A TRY de CREACIÓN');
+      console.log('baseURL', baseURL);
+      console.log('baseURL', baseURL);
+      await fetch(`${baseURL}/clients/signup`, {
+        method: 'POST',
+        body: JSON.stringify(userData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      dispatch(setRegister(true));
+    } catch (error) {
+      console.log(error);
     }
   };
 };

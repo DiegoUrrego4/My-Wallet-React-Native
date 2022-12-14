@@ -36,17 +36,19 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
 
   const {userData} = useSelector((state: RootState) => state.auth);
   const {email} = userData;
-  // console.log('userData :>> ', userData);
-  console.log('email', email);
+  console.log('Email', email);
   const {data} = useFetch(`/clients/${email}`);
   const {
     account: {balance},
   } = data;
 
+  console.log('BALANCE', balance);
+
   return (
     <View style={accountStyles.screenContainer}>
       <View style={accountStyles.balanceContainer}>
         <Text style={accountStyles.balanceMoney}>${balance}</Text>
+        {/* <Text style={accountStyles.balanceMoney}>$12</Text> */}
         <Text style={accountStyles.balanceText}>Balance in your account</Text>
       </View>
       <View style={accountStyles.movementsContainer}>
