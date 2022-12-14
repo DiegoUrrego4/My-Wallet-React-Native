@@ -47,13 +47,58 @@ export const useFetch = (url: string) => {
       ...state,
       isLoading: true,
     });
-    const resp = await fetch(`${baseURL}${url}`);
-    const data = await resp.json();
-    setState({
-      data,
-      isLoading: false,
-      hasError: null,
-    });
+    try {
+      const resp = await fetch(`${baseURL}${url}`);
+      const data = await resp.json();
+      // console.log('DATA GETFETCH :>> ', data);
+      if (data.message) {
+        // console.log('Entrando al IF');
+        setState({
+          ...state,
+          data: {
+            id: '',
+            createdAt: '',
+            deletedAt: null,
+            email: '',
+            fullName: '',
+            phone: '',
+            photo: '',
+            state: 0,
+            updatedAt: null,
+            account: {
+              balance: '',
+              clientId: '',
+              createdAt: '',
+              credit: '',
+              deletedAt: null,
+              id: '',
+              state: 0,
+              updatedAt: null,
+            },
+            app: {
+              appColor: '',
+              clientId: '',
+              createdAt: '',
+              id: '',
+              updatedAt: null,
+            },
+          },
+          hasError: true,
+        });
+      } else {
+        setState({
+          data,
+          isLoading: false,
+          hasError: null,
+        });
+      }
+    } catch (error) {
+      console.log('ERROR', error);
+      setState({
+        ...state,
+        hasError: true,
+      });
+    }
   };
 
   useEffect(() => {

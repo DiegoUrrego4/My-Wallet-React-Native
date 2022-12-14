@@ -115,9 +115,8 @@ export const createClient = (userData: UserData) => {
     // dispatch(setAuth());
     // TODO: Peticiones HTTP - Crear cliente
     try {
-      console.log('ENTRANDO A TRY de CREACIÓN');
-      console.log('baseURL', baseURL);
-      console.log('baseURL', baseURL);
+      // console.log('ENTRANDO A TRY de CREACIÓN');
+      // console.log('baseURL', baseURL);
       await fetch(`${baseURL}/clients/signup`, {
         method: 'POST',
         body: JSON.stringify(userData),

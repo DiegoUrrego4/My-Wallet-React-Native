@@ -26,6 +26,7 @@ export const LoginUserScreen = ({navigation}: MyStackScreenProps) => {
   const {isAuth, userData, register} = useSelector(
     (state: RootState) => state.auth,
   );
+
   const {form, onChange} = useForm({
     phone: '',
   });
