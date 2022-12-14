@@ -1,6 +1,5 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {SettingsScreen} from '../screens/sidemenu/SettingsScreen';
 import {MaterialBottomTabs} from './MaterialBottomTab';
 import {ChangePasswordScreen} from '../screens/sidemenu/ChangePasswordScreen';
 import {ChangeAppThemeScreen} from '../screens/sidemenu/ChangeAppThemeScreen';
@@ -48,7 +47,6 @@ export const SideMenu = () => {
         options={{title: 'My App'}}
         component={ChangeAppThemeScreen}
       />
-      <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
     </Drawer.Navigator>
   );
 };

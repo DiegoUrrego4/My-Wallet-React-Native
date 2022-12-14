@@ -28,8 +28,16 @@ export const loansStyles = StyleSheet.create({
     flexDirection: 'row',
     width: 360,
     alignItems: 'center',
-    marginVertical: 15,
+    marginVertical: 5,
     justifyContent: 'space-between',
+  },
+  errorMessageContainer: {
+    width: '100%',
+    alignItems: 'center',
+    // backgroundColor: 'green',
+  },
+  errorMessage: {
+    color: 'red',
   },
   input: {
     height: 40,
