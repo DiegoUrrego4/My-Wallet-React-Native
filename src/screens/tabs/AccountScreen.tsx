@@ -5,6 +5,10 @@ import {Movement} from '../../components/Movement';
 import {ScrollView} from 'react-native-gesture-handler';
 import {MyStackScreenProps} from '../../interfaces/MyStackScreenProps';
 
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store/store';
+import {useFetch} from '../../hooks/useFetch';
+
 export const AccountScreen = ({navigation}: MyStackScreenProps) => {
   useEffect(() => {
     const backAction = () => {
@@ -30,10 +34,21 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
     return () => backHandler.remove();
   }, [navigation]);
 
+  const {userData} = useSelector((state: RootState) => state.auth);
+  const {email} = userData;
+  console.log('Email', email);
+  const {data} = useFetch(`/clients/${email}`);
+  const {
+    account: {balance},
+  } = data;
+
+  console.log('BALANCE', balance);
+
   return (
     <View style={accountStyles.screenContainer}>
       <View style={accountStyles.balanceContainer}>
-        <Text style={accountStyles.balanceMoney}>$642.345.678</Text>
+        <Text style={accountStyles.balanceMoney}>${balance}</Text>
+        {/* <Text style={accountStyles.balanceMoney}>$12</Text> */}
         <Text style={accountStyles.balanceText}>Balance in your account</Text>
       </View>
       <View style={accountStyles.movementsContainer}>

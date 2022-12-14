@@ -5,9 +5,8 @@ export const loginStyles = StyleSheet.create({
   mainContainer: {
     flex: 1,
   },
-  imageContainer: {
+  inputContainer: {
     flex: 1,
-    // backgroundColor: 'pink',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -21,11 +20,21 @@ export const loginStyles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
-  midContainer: {
-    flex: 0.5,
-    // backgroundColor: 'orange',
-    justifyContent: 'center',
+  loginDataContainer: {
+    // flexDirection: 'row',
+    width: 290,
     alignItems: 'center',
+    marginVertical: 150,
+    justifyContent: 'space-between',
+    // backgroundColor: 'red',
+  },
+  userDataContainer: {
+    flexDirection: 'row',
+    width: 290,
+    alignItems: 'center',
+    marginVertical: 10,
+    justifyContent: 'space-between',
+    // backgroundColor: 'red',
   },
   userInformationText: {
     fontSize: 15,
@@ -37,6 +46,14 @@ export const loginStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.datesColor,
     width: 300,
+    borderRadius: 5,
+  },
+  inputPhone: {
+    height: 40,
+    marginVertical: 20,
+    borderWidth: 1,
+    borderColor: colors.datesColor,
+    width: 250,
     borderRadius: 5,
   },
   button: {
@@ -62,16 +79,8 @@ export const loginStyles = StyleSheet.create({
     fontSize: 15,
     marginBottom: 10,
   },
-  platformsSignIn: {
-    width: 300,
-    height: 40,
-    borderWidth: 1,
-    borderColor: colors.datesColor,
-    marginVertical: 10,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderRadius: 5,
+  imageContainer: {
+    flex: 1,
   },
   platformsSignInText: {
     fontSize: 15,
