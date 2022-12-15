@@ -104,7 +104,7 @@ export const useFetch = (url: string) => {
     getFetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
-  // }, [url, state.data]);
+  // }, [url]);
 
   return {
     data: state.data,

@@ -4,13 +4,17 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {AccountScreen} from '../screens/tabs/AccountScreen';
 import {LoansScreen} from '../screens/tabs/LoansScreen';
 import {PaymentScreen} from '../screens/tabs/PaymentScreen';
+import {useAppColor} from '../hooks/useAppColor';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export const MaterialBottomTabs = () => {
+  const {colorState} = useAppColor();
+  console.log('COLOR SATE MATERIAL', colorState);
   return (
     <Tab.Navigator
       sceneAnimationEnabled={true}
+      barStyle={{backgroundColor: colorState}}
       screenOptions={({route}) => ({
         tabBarLabelStyle: {
           fontSize: 15,

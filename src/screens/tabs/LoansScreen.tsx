@@ -16,6 +16,9 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store/store';
 import {useFetch} from '../../hooks/useFetch';
 import {useForm} from '../../hooks/useForm';
+import {useAppColor} from '../../hooks/useAppColor';
+import currencyFormatter from 'currency-formatter';
+// import {useGetBalance} from '../../hooks/useGetBalance';
 
 export const LoansScreen = () => {
   const {userData} = useSelector((state: RootState) => state.auth);
@@ -24,6 +27,9 @@ export const LoansScreen = () => {
   const {
     account: {credit, id: clientId},
   } = data;
+  // const {credit, idOutcome: clientId} = useGetBalance();
+
+  console.log('CREDIT', credit);
 
   const {form, onChange, resetForm} = useForm({
     idIncome: '',
@@ -51,6 +57,8 @@ export const LoansScreen = () => {
     }
   };
 
+  const {colorState} = useAppColor();
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -61,7 +69,9 @@ export const LoansScreen = () => {
               <Icon name="logo-euro" size={30} />
               <View>
                 <Text style={loansStyles.amountText}>Cupo Disponible</Text>
-                <Text style={loansStyles.amount}>${credit}</Text>
+                <Text style={loansStyles.amount}>
+                  {currencyFormatter.format(Number(credit), {code: 'COP'})}
+                </Text>
               </View>
             </View>
             <View style={loansStyles.inputContainer}>
@@ -84,7 +94,7 @@ export const LoansScreen = () => {
               />
             </View>
             <TouchableOpacity
-              style={loansStyles.button}
+              style={{...loansStyles.button, backgroundColor: colorState}}
               onPress={createMovement}>
               <Text style={loansStyles.buttonText}>Apply for loan</Text>
             </TouchableOpacity>

@@ -56,6 +56,7 @@ export const getCredentials = () => {
       // TODO: Peticiones HTTP
       // Buscar si el usuario existe
       const clientExist = await findDBClient(user_data.email);
+      console.log('clientExist', clientExist);
 
       if (clientExist) {
         dispatch(setRegister(true));

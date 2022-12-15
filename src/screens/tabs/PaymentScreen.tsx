@@ -11,19 +11,17 @@ import {
   Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
 import {useFetch} from '../../hooks/useFetch';
-import {RootState} from '../../redux/store/store';
 import {loansStyles} from '../../theme/loansTheme';
 import {useForm} from '../../hooks/useForm';
+import {useAppColor} from '../../hooks/useAppColor';
+import currencyFormatter from 'currency-formatter';
+import {useGetBalance} from '../../hooks/useGetBalance';
 
 export const PaymentScreen = () => {
-  const {userData} = useSelector((state: RootState) => state.auth);
-
   const {form, onChange, resetForm} = useForm({
     idIncome: '',
     idOutcome: '',
-    // user: '',
     amount: '',
     reason: '',
     fees: 0,
@@ -36,12 +34,7 @@ export const PaymentScreen = () => {
   } = useForm({
     user: '',
   });
-
-  const {email} = userData;
-  const {data} = useFetch(`/clients/${email}`);
-  const {
-    account: {balance, id: idOutcome},
-  } = data;
+  const {balance, idOutcome} = useGetBalance();
 
   const {data: clientToPay, hasError} = useFetch(`/clients/${userForm.user}`);
 
@@ -67,6 +60,8 @@ export const PaymentScreen = () => {
     }
   };
 
+  const {colorState} = useAppColor();
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -74,7 +69,11 @@ export const PaymentScreen = () => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={loansStyles.mainContainer}>
             <View style={loansStyles.accountContainer}>
-              <Text style={loansStyles.accountValue}>${balance}</Text>
+              <Text style={loansStyles.accountValue}>
+                {currencyFormatter.format(Number(balance), {
+                  code: 'COP',
+                })}
+              </Text>
               <Text style={loansStyles.accountText}>Account balance</Text>
             </View>
             <View style={loansStyles.inputsContainer}>
@@ -117,7 +116,7 @@ export const PaymentScreen = () => {
                 />
               </View>
               <TouchableOpacity
-                style={loansStyles.button}
+                style={{...loansStyles.button, backgroundColor: colorState}}
                 disabled={hasError ? true : false}
                 onPress={createMovement}>
                 <Text style={loansStyles.buttonText}>Send payment</Text>

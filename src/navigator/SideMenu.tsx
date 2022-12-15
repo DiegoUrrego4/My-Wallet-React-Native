@@ -7,16 +7,20 @@ import {colors} from '../theme/appTheme';
 import {AuthNavigation} from './AuthNavigation';
 import {LoginPasswordScreen} from '../screens/auth/LoginPasswordScreen';
 import {InternalSideMenu} from '../screens/sidemenu/InternalSideMenu';
+import {useAppColor} from '../hooks/useAppColor';
 
 const Drawer = createDrawerNavigator();
 
 export const SideMenu = () => {
+  const {colorState = '#007AFF'} = useAppColor();
+  console.log('COLOR STATE SIDEMENU', colorState);
+
   return (
     <Drawer.Navigator
       initialRouteName="AuthNavigation"
       screenOptions={{
         headerStyle: {
-          backgroundColor: colors.appColor,
+          backgroundColor: '#007AFF',
           elevation: 0,
         },
         headerTintColor: colors.appTextColor,

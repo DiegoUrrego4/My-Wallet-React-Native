@@ -10,6 +10,8 @@ import {RootState} from '../../redux/store/store';
 import {useFetch} from '../../hooks/useFetch';
 import {Come} from '../../interfaces/accountInterface';
 // import {useGetMovementPicture} from '../../helpers/getMovementPicture';
+import {useAppColor} from '../../hooks/useAppColor';
+import currencyFormatter from 'currency-formatter';
 
 export const AccountScreen = ({navigation}: MyStackScreenProps) => {
   useEffect(() => {
@@ -51,12 +53,19 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
     (outcome: Come) => outcome.fees === 0,
   );
 
-  // useGetMovementPicture(incomes);
+  const {colorState = '#007AFF'} = useAppColor();
+  console.log('COLOR STATE!', colorState);
 
   return (
     <View style={accountStyles.screenContainer}>
-      <View style={accountStyles.balanceContainer}>
-        <Text style={accountStyles.balanceMoney}>${balance}</Text>
+      <View
+        style={{
+          ...accountStyles.balanceContainer,
+          backgroundColor: colorState,
+        }}>
+        <Text style={accountStyles.balanceMoney}>
+          {currencyFormatter.format(balance, {code: 'COP'})}
+        </Text>
         {/* <Text style={accountStyles.balanceMoney}>$12</Text> */}
         <Text style={accountStyles.balanceText}>Balance in your account</Text>
       </View>
