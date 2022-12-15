@@ -54,7 +54,7 @@ export const PaymentScreen = () => {
   form.idIncome = idIncome || '';
   form.idOutcome = idOutcome || '';
 
-  const prueba = async () => {
+  const createMovement = async () => {
     try {
       await fetch('http://192.168.1.25:3000/api/v1/movements', {
         method: 'POST',
@@ -122,7 +122,7 @@ export const PaymentScreen = () => {
               <TouchableOpacity
                 style={loansStyles.button}
                 disabled={hasError ? true : false}
-                onPress={prueba}>
+                onPress={createMovement}>
                 <Text style={loansStyles.buttonText}>Send payment</Text>
               </TouchableOpacity>
             </View>
