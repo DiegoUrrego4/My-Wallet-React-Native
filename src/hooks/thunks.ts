@@ -1,4 +1,3 @@
-// import {Auth0} from '../modules';
 import Auth0 from 'react-native-auth0';
 import SInfo from 'react-native-sensitive-info';
 import jwtDecode from 'jwt-decode';
@@ -10,7 +9,6 @@ import {
   startLogin,
   UserData,
 } from '../redux/slices/authSlice';
-// import {useFetch} from './useFetch';
 
 const auth0 = new Auth0({
   domain: 'dev-gsziwkfju7op66gz.us.auth0.com',
@@ -46,9 +44,7 @@ export const getCredentials = () => {
       });
       await SInfo.setItem('idToken', credentials.idToken, {});
       const user_data = await getUserData(credentials.idToken);
-      // const clientComplete = {...user_data, phone: '1234567890'};
       dispatch(startLogin());
-      console.log('user_data THUNK :>> ', user_data);
       dispatch(
         setLogin({
           name: user_data.fullName,
@@ -60,7 +56,6 @@ export const getCredentials = () => {
       // TODO: Peticiones HTTP
       // Buscar si el usuario existe
       const clientExist = await findDBClient(user_data.email);
-      console.log('clientExist', clientExist);
 
       if (clientExist) {
         dispatch(setRegister(true));
@@ -99,9 +94,7 @@ const findDBClient = async (clientEmail: string) => {
 };
 
 export const createClient = (userData: UserData) => {
-  console.log('createClient disparado!');
   const {name, email, phone, picture} = userData;
-  console.log('userData - createClient', userData);
   return async (dispatch: any) => {
     // try {
     dispatch(
@@ -112,11 +105,8 @@ export const createClient = (userData: UserData) => {
         picture,
       }),
     );
-    // dispatch(setAuth());
-    // TODO: Peticiones HTTP - Crear cliente
+    // Peticiones HTTP - Crear cliente
     try {
-      // console.log('ENTRANDO A TRY de CREACIÓN');
-      // console.log('baseURL', baseURL);
       await fetch(`${baseURL}/clients/signup`, {
         method: 'POST',
         body: JSON.stringify(userData),

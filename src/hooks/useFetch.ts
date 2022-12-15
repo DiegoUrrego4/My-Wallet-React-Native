@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {ClientResponse} from '../interfaces/clientsInterface';
+// import {AccountResponse} from '../interfaces/accountInterface';
 
 const baseURL = 'http://192.168.1.25:3000/api/v1';
 
@@ -102,7 +103,8 @@ export const useFetch = (url: string) => {
   useEffect(() => {
     getFetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url, state.data]);
+  }, [url]);
+  // }, [url, state.data]);
 
   return {
     data: state.data,

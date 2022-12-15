@@ -45,9 +45,6 @@ export const PaymentScreen = () => {
 
   const {data: clientToPay, hasError} = useFetch(`/clients/${userForm.user}`);
 
-  // console.log('DATA :>> ', data);
-  // console.log('DATA  USER TO PAY:>> ', clientToPay);
-
   const {account = {id: ''}} = clientToPay;
   const {id: idIncome} = account;
 
