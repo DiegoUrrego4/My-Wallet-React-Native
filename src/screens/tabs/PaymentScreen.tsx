@@ -20,13 +20,21 @@ import {useForm} from '../../hooks/useForm';
 export const PaymentScreen = () => {
   const {userData} = useSelector((state: RootState) => state.auth);
 
-  const {form, onChange} = useForm({
+  const {form, onChange, resetForm} = useForm({
     idIncome: '',
     idOutcome: '',
-    user: '',
+    // user: '',
     amount: '',
     reason: '',
-    fees: '0',
+    fees: 0,
+  });
+
+  const {
+    form: userForm,
+    onChange: onChangeUser,
+    resetForm: resetUserForm,
+  } = useForm({
+    user: '',
   });
 
   const {email} = userData;
@@ -35,18 +43,29 @@ export const PaymentScreen = () => {
     account: {balance, id: idOutcome},
   } = data;
 
-  const {data: clientToPay, hasError} = useFetch(`/clients/${form.user}`);
-
-  // console.log('DATA :>> ', data);
-  // console.log('DATA  USER TO PAY:>> ', clientToPay);
+  const {data: clientToPay, hasError} = useFetch(`/clients/${userForm.user}`);
 
   const {account = {id: ''}} = clientToPay;
-  // console.log('ACCOUNT', account);
   const {id: idIncome} = account;
-  // console.log('ACCOUNT ID', idIncome);
 
   form.idIncome = idIncome || '';
   form.idOutcome = idOutcome || '';
+
+  const createMovement = async () => {
+    try {
+      await fetch('http://192.168.1.25:3000/api/v1/movements', {
+        method: 'POST',
+        body: JSON.stringify(form),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      resetForm();
+      resetUserForm();
+    } catch (error) {
+      console.log('ERROR', error);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -64,8 +83,9 @@ export const PaymentScreen = () => {
                 <TextInput
                   style={loansStyles.input}
                   placeholder="User's email or phone number"
-                  onChangeText={value => onChange(value, 'user')}
+                  onChangeText={value => onChangeUser(value, 'user')}
                   keyboardType="email-address"
+                  value={userForm.user}
                 />
               </View>
 
@@ -84,6 +104,7 @@ export const PaymentScreen = () => {
                   placeholder="Amount"
                   onChangeText={value => onChange(value, 'amount')}
                   keyboardType="phone-pad"
+                  value={form.amount}
                 />
               </View>
               <View style={loansStyles.inputContainer}>
@@ -92,11 +113,13 @@ export const PaymentScreen = () => {
                   style={loansStyles.input}
                   placeholder="Reason"
                   onChangeText={value => onChange(value, 'reason')}
+                  value={form.reason}
                 />
               </View>
               <TouchableOpacity
                 style={loansStyles.button}
-                disabled={hasError ? true : false}>
+                disabled={hasError ? true : false}
+                onPress={createMovement}>
                 <Text style={loansStyles.buttonText}>Send payment</Text>
               </TouchableOpacity>
             </View>

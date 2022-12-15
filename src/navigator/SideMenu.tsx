@@ -36,7 +36,11 @@ export const SideMenu = () => {
         name="LoginPasswordScreen"
         component={LoginPasswordScreen}
       />
-      <Drawer.Screen name="MaterialBottomTabs" component={MaterialBottomTabs} />
+      <Drawer.Screen
+        name="MaterialBottomTabs"
+        options={{title: 'My App'}}
+        component={MaterialBottomTabs}
+      />
       <Drawer.Screen
         name="ChangePasswordScreen"
         options={{title: 'My App'}}

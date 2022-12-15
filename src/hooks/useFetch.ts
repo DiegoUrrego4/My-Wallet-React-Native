@@ -1,10 +1,11 @@
 import {useEffect, useState} from 'react';
-import {ClientResponse} from '../interfaces/clientsInterface';
+// import {ClientResponse} from '../interfaces/clientsInterface';
+// import {AccountResponse} from '../interfaces/accountInterface';
 
 const baseURL = 'http://192.168.1.25:3000/api/v1';
 
 interface Client {
-  data: ClientResponse;
+  data: any;
   isLoading: boolean;
   hasError: boolean | null;
 }
@@ -50,9 +51,7 @@ export const useFetch = (url: string) => {
     try {
       const resp = await fetch(`${baseURL}${url}`);
       const data = await resp.json();
-      // console.log('DATA GETFETCH :>> ', data);
       if (data.message) {
-        // console.log('Entrando al IF');
         setState({
           ...state,
           data: {
@@ -105,6 +104,7 @@ export const useFetch = (url: string) => {
     getFetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
+  // }, [url, state.data]);
 
   return {
     data: state.data,
