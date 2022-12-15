@@ -9,6 +9,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store/store';
 import {useFetch} from '../../hooks/useFetch';
 import {Come} from '../../interfaces/accountInterface';
+// import {useGetMovementPicture} from '../../helpers/getMovementPicture';
 
 export const AccountScreen = ({navigation}: MyStackScreenProps) => {
   useEffect(() => {
@@ -50,6 +51,8 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
     (outcome: Come) => outcome.fees === 0,
   );
 
+  // useGetMovementPicture(incomes);
+
   return (
     <View style={accountStyles.screenContainer}>
       <View style={accountStyles.balanceContainer}>
@@ -59,24 +62,24 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
       </View>
       <View style={accountStyles.movementsContainer}>
         <ScrollView>
-          {filteredOutcomes.map((outcome: Come) => (
-            <Movement
-              key={outcome.id}
-              imageUrl="https://yt3.ggpht.com/ytc/AMLnZu8QsSEu3Mi6gXxvOK6gRy8u-yjLhbdLYfOi7cz0=s900-c-k-c0x00ffffff-no-rj"
-              movementFor={outcome.reason}
-              date={outcome.datetime}
-              quantity={outcome.amount}
-              typeOfMovement={'outcome'}
-            />
-          ))}
           {incomes.map((income: Come) => (
             <Movement
               key={income.id}
-              imageUrl="https://yt3.ggpht.com/ytc/AMLnZu8QsSEu3Mi6gXxvOK6gRy8u-yjLhbdLYfOi7cz0=s900-c-k-c0x00ffffff-no-rj"
+              imageUrl={income.pictureOutcome}
               movementFor={income.reason}
               date={income.datetime}
               quantity={income.amount}
               typeOfMovement={'income'}
+            />
+          ))}
+          {filteredOutcomes.map((outcome: Come) => (
+            <Movement
+              key={outcome.id}
+              imageUrl={outcome.pictureIncome}
+              movementFor={outcome.reason}
+              date={outcome.datetime}
+              quantity={outcome.amount}
+              typeOfMovement={'outcome'}
             />
           ))}
         </ScrollView>

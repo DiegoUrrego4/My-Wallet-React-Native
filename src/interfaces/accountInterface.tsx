@@ -21,4 +21,6 @@ export interface Come {
   amount: string;
   fees: number;
   datetime: string;
+  pictureIncome: string;
+  pictureOutcome: string;
 }

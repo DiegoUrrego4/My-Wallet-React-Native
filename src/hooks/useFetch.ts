@@ -1,11 +1,11 @@
 import {useEffect, useState} from 'react';
-import {ClientResponse} from '../interfaces/clientsInterface';
+// import {ClientResponse} from '../interfaces/clientsInterface';
 // import {AccountResponse} from '../interfaces/accountInterface';
 
 const baseURL = 'http://192.168.1.25:3000/api/v1';
 
 interface Client {
-  data: ClientResponse;
+  data: any;
   isLoading: boolean;
   hasError: boolean | null;
 }
