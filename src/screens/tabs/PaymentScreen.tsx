@@ -14,7 +14,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useFetch} from '../../hooks/useFetch';
 import {loansStyles} from '../../theme/loansTheme';
 import {useForm} from '../../hooks/useForm';
-import {useAppColor} from '../../hooks/useAppColor';
 import currencyFormatter from 'currency-formatter';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store/store';
@@ -26,7 +25,7 @@ export const PaymentScreen = () => {
   const {data} = useSelector((state: RootState) => state.account);
   const {userData} = useSelector((stateA: RootState) => stateA.auth);
   const {email = ''} = userData;
-  const {balance = '', id: idOutcome} = data;
+  const {balance = '', id: idOutcome, appColor} = data;
   const {form, onChange, resetForm} = useForm({
     idIncome: '',
     idOutcome: '',
@@ -51,8 +50,6 @@ export const PaymentScreen = () => {
 
   form.idIncome = idIncome || '';
   form.idOutcome = idOutcome || '';
-
-  const {colorState} = useAppColor();
 
   const handleClick = () => {
     try {
@@ -123,13 +120,13 @@ export const PaymentScreen = () => {
                 />
               </View>
               <TouchableOpacity
-                style={{...loansStyles.button, backgroundColor: colorState}}
+                style={{...loansStyles.button, backgroundColor: appColor}}
                 disabled={hasError ? true : false}
                 onPress={handleClick}>
                 <Text style={loansStyles.buttonText}>Send payment</Text>
               </TouchableOpacity>
             </View>
-            <Text>{JSON.stringify(form, null, 5)}</Text>
+            {/* <Text>{JSON.stringify(form, null, 5)}</Text> */}
             <View style={{height: 100}} />
           </View>
         </TouchableWithoutFeedback>

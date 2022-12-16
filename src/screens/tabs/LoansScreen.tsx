@@ -13,7 +13,6 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import {loansStyles} from '../../theme/loansTheme';
 import {useForm} from '../../hooks/useForm';
-import {useAppColor} from '../../hooks/useAppColor';
 import currencyFormatter from 'currency-formatter';
 import {useSelector} from 'react-redux';
 import {createMovement, getAccountBalance, useAppDispatch} from '../../hooks';
@@ -22,7 +21,7 @@ import {RootState} from '../../redux/store/store';
 export const LoansScreen = () => {
   const dispatch = useAppDispatch();
   const {
-    data: {id = '', credit},
+    data: {id = '', credit, appColor},
   } = useSelector((state: RootState) => state.account);
   const {userData} = useSelector((stateA: RootState) => stateA.auth);
   const {email = ''} = userData;
@@ -47,7 +46,7 @@ export const LoansScreen = () => {
     }
   };
 
-  const {colorState} = useAppColor();
+  // const {colorState} = useAppColor();
 
   useEffect(() => {
     dispatch(getAccountBalance(email));
@@ -89,11 +88,11 @@ export const LoansScreen = () => {
               />
             </View>
             <TouchableOpacity
-              style={{...loansStyles.button, backgroundColor: colorState}}
+              style={{...loansStyles.button, backgroundColor: appColor}}
               onPress={handleClick}>
               <Text style={loansStyles.buttonText}>Apply for loan</Text>
             </TouchableOpacity>
-            <Text>{JSON.stringify(form, null, 5)}</Text>
+            {/* <Text>{JSON.stringify(form, null, 5)}</Text> */}
             <View style={{height: 100}} />
           </View>
         </TouchableWithoutFeedback>

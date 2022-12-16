@@ -4,7 +4,6 @@ import {accountStyles} from '../../theme/accountScreenTheme';
 import {Movement} from '../../components/Movement';
 import {ScrollView} from 'react-native-gesture-handler';
 import {MyStackScreenProps} from '../../interfaces/MyStackScreenProps';
-import {useAppColor} from '../../hooks/useAppColor';
 import currencyFormatter from 'currency-formatter';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store/store';
@@ -41,12 +40,9 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
   const {email = ''} = userData;
   console.log('Email', email);
   const {data} = useSelector((state: RootState) => state.account);
-  const {balance, id = '', incomes = [], outcomes = []} = data;
+  const {balance, id = '', incomes = [], outcomes = [], appColor} = data;
 
   const filteredOutcomes = outcomes?.filter(outcome => outcome.fees === 0);
-
-  const {colorState = '#007AFF'} = useAppColor();
-  console.log('COLOR STATE!', colorState);
 
   useEffect(() => {
     dispatch(getAccountBalance(email));
@@ -59,7 +55,7 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
       <View
         style={{
           ...accountStyles.balanceContainer,
-          backgroundColor: colorState,
+          backgroundColor: appColor,
         }}>
         <Text style={accountStyles.balanceMoney}>
           {currencyFormatter.format(Number(balance), {code: 'COP'})}

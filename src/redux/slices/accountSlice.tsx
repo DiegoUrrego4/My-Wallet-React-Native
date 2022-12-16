@@ -34,6 +34,7 @@ const initialState: CounterState = {
     balance: '',
     credit: '',
     id: '',
+    appColor: '#007AFF',
   },
   hasError: null,
 };
@@ -49,6 +50,7 @@ export const counterSlice = createSlice({
       state.data.balance = action.payload.balance;
       state.data.id = action.payload.id;
       state.data.credit = action.payload.credit;
+      state.data.appColor = action.payload.appColor;
       state.hasError = false;
       state.isLoading = false;
     },
