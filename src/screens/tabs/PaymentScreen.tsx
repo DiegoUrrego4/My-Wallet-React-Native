@@ -16,7 +16,6 @@ import {loansStyles} from '../../theme/loansTheme';
 import {useForm} from '../../hooks/useForm';
 import {useAppColor} from '../../hooks/useAppColor';
 import currencyFormatter from 'currency-formatter';
-import {useGetBalance} from '../../hooks/useGetBalance';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store/store';
 import {useAppDispatch} from '../../hooks/hooks';

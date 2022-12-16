@@ -15,26 +15,17 @@ import {loansStyles} from '../../theme/loansTheme';
 import {useForm} from '../../hooks/useForm';
 import {useAppColor} from '../../hooks/useAppColor';
 import currencyFormatter from 'currency-formatter';
-// import {useGetBalance} from '../../hooks/useGetBalance';
 import {useSelector} from 'react-redux';
-import {getAccountBalance, useAppDispatch} from '../../hooks';
+import {createMovement, getAccountBalance, useAppDispatch} from '../../hooks';
 import {RootState} from '../../redux/store/store';
-import {useFetch} from '../../hooks/useFetch';
 
 export const LoansScreen = () => {
-  // const {credit, idOutcome: clientId} = useGetBalance();
-  // const dispatch = useAppDispatch();
-  // const {data} = useSelector((state: RootState) => state.account);
-  // const {userData} = useSelector((stateA: RootState) => stateA.auth);
-  // const {email = ''} = userData;
-  // const {credit, id: clientId} = data;
-
-  const {userData} = useSelector((state: RootState) => state.auth);
-  const {email} = userData;
-  const {data} = useFetch(`/clients/${email}`);
+  const dispatch = useAppDispatch();
   const {
-    account: {credit, id: clientId},
-  } = data;
+    data: {id = '', credit},
+  } = useSelector((state: RootState) => state.account);
+  const {userData} = useSelector((stateA: RootState) => stateA.auth);
+  const {email = ''} = userData;
 
   const {form, onChange, resetForm} = useForm({
     idIncome: '',
@@ -44,30 +35,24 @@ export const LoansScreen = () => {
     fees: 60,
   });
 
-  form.idIncome = clientId;
-  form.idOutcome = clientId;
+  form.idIncome = id;
+  form.idOutcome = id;
 
-  const createMovement = async () => {
+  const handleClick = () => {
     try {
-      await fetch('http://192.168.1.25:3000/api/v1/movements', {
-        method: 'POST',
-        body: JSON.stringify(form),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      dispatch(createMovement(email, form));
       resetForm();
     } catch (error) {
-      console.log('ERROR', error);
+      console.log('ERROr', error);
     }
   };
 
   const {colorState} = useAppColor();
 
-  // useEffect(() => {
-  //   dispatch(getAccountBalance(email));
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    dispatch(getAccountBalance(email));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -105,7 +90,7 @@ export const LoansScreen = () => {
             </View>
             <TouchableOpacity
               style={{...loansStyles.button, backgroundColor: colorState}}
-              onPress={createMovement}>
+              onPress={handleClick}>
               <Text style={loansStyles.buttonText}>Apply for loan</Text>
             </TouchableOpacity>
             <Text>{JSON.stringify(form, null, 5)}</Text>

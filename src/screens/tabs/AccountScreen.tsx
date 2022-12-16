@@ -4,18 +4,12 @@ import {accountStyles} from '../../theme/accountScreenTheme';
 import {Movement} from '../../components/Movement';
 import {ScrollView} from 'react-native-gesture-handler';
 import {MyStackScreenProps} from '../../interfaces/MyStackScreenProps';
-
-// import {useSelector} from 'react-redux';
-// import {RootState} from '../../redux/store/store';
-import {useFetch} from '../../hooks/useFetch';
-import {Come} from '../../interfaces/accountInterface';
-// import {useGetMovementPicture} from '../../helpers/getMovementPicture';
 import {useAppColor} from '../../hooks/useAppColor';
 import currencyFormatter from 'currency-formatter';
-import {useGetBalance} from '../../hooks/useGetBalance';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store/store';
 import {getAccountBalance, useAppDispatch} from '../../hooks';
+import {getAccountMovements} from '../../hooks/thunks';
 
 export const AccountScreen = ({navigation}: MyStackScreenProps) => {
   useEffect(() => {
@@ -47,29 +41,18 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
   const {email = ''} = userData;
   console.log('Email', email);
   const {data} = useSelector((state: RootState) => state.account);
-  const {balance, id} = data;
+  const {balance, id = '', incomes = [], outcomes = []} = data;
 
-  // const {data} = useFetch(`/clients/${email}`);
-  // const {
-  //   account: {balance, id: accountId},
-  // } = data;
-  // const {balance, idOutcome} = useGetBalance();
-  // console.log('ID', idOutcome);
-
-  const {data: accountData} = useFetch(`/account/${id}`);
-  const {incomes = [], outcomes = []} = accountData;
-
-  const filteredOutcomes: Come[] = outcomes.filter(
-    (outcome: Come) => outcome.fees === 0,
-  );
+  const filteredOutcomes = outcomes?.filter(outcome => outcome.fees === 0);
 
   const {colorState = '#007AFF'} = useAppColor();
   console.log('COLOR STATE!', colorState);
 
   useEffect(() => {
     dispatch(getAccountBalance(email));
+    dispatch(getAccountMovements(id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [balance]);
 
   return (
     <View style={accountStyles.screenContainer}>
@@ -86,7 +69,7 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
       </View>
       <View style={accountStyles.movementsContainer}>
         <ScrollView>
-          {incomes.map((income: Come) => (
+          {incomes.map((income: any) => (
             <Movement
               key={income.id}
               imageUrl={income.pictureOutcome}
@@ -96,7 +79,7 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
               typeOfMovement={'income'}
             />
           ))}
-          {filteredOutcomes.map((outcome: Come) => (
+          {filteredOutcomes.map((outcome: any) => (
             <Movement
               key={outcome.id}
               imageUrl={outcome.pictureIncome}
