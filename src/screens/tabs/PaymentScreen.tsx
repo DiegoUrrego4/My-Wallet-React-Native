@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -11,42 +11,60 @@ import {
   Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
 import {useFetch} from '../../hooks/useFetch';
-import {RootState} from '../../redux/store/store';
 import {loansStyles} from '../../theme/loansTheme';
 import {useForm} from '../../hooks/useForm';
+import currencyFormatter from 'currency-formatter';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store/store';
+import {useAppDispatch} from '../../hooks/hooks';
+import {getAccountBalance, createMovement} from '../../hooks/thunks';
 
 export const PaymentScreen = () => {
-  const {userData} = useSelector((state: RootState) => state.auth);
-
-  const {form, onChange} = useForm({
+  const dispatch = useAppDispatch();
+  const {data} = useSelector((state: RootState) => state.account);
+  const {userData} = useSelector((stateA: RootState) => stateA.auth);
+  const {email = ''} = userData;
+  const {balance = '', id: idOutcome, appColor} = data;
+  const {form, onChange, resetForm} = useForm({
     idIncome: '',
     idOutcome: '',
-    user: '',
     amount: '',
     reason: '',
-    fees: '0',
+    fees: 0,
   });
 
-  const {email} = userData;
-  const {data} = useFetch(`/clients/${email}`);
   const {
-    account: {balance, id: idOutcome},
-  } = data;
+    form: userForm,
+    onChange: onChangeUser,
+    resetForm: resetUserForm,
+  } = useForm({
+    user: '',
+  });
+  // const {createMovement} = useGetBalance();
 
-  const {data: clientToPay, hasError} = useFetch(`/clients/${form.user}`);
-
-  // console.log('DATA :>> ', data);
-  // console.log('DATA  USER TO PAY:>> ', clientToPay);
+  const {data: clientToPay, hasError} = useFetch(`/clients/${userForm.user}`);
 
   const {account = {id: ''}} = clientToPay;
-  // console.log('ACCOUNT', account);
   const {id: idIncome} = account;
-  // console.log('ACCOUNT ID', idIncome);
 
   form.idIncome = idIncome || '';
   form.idOutcome = idOutcome || '';
+
+  const handleClick = () => {
+    try {
+      dispatch(createMovement(email, form));
+      resetForm();
+      resetUserForm();
+    } catch (error) {
+      console.log('ERROr', error);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getAccountBalance(email));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -55,7 +73,11 @@ export const PaymentScreen = () => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={loansStyles.mainContainer}>
             <View style={loansStyles.accountContainer}>
-              <Text style={loansStyles.accountValue}>${balance}</Text>
+              <Text style={loansStyles.accountValue}>
+                {currencyFormatter.format(Number(balance), {
+                  code: 'COP',
+                })}
+              </Text>
               <Text style={loansStyles.accountText}>Account balance</Text>
             </View>
             <View style={loansStyles.inputsContainer}>
@@ -64,8 +86,9 @@ export const PaymentScreen = () => {
                 <TextInput
                   style={loansStyles.input}
                   placeholder="User's email or phone number"
-                  onChangeText={value => onChange(value, 'user')}
+                  onChangeText={value => onChangeUser(value, 'user')}
                   keyboardType="email-address"
+                  value={userForm.user}
                 />
               </View>
 
@@ -84,6 +107,7 @@ export const PaymentScreen = () => {
                   placeholder="Amount"
                   onChangeText={value => onChange(value, 'amount')}
                   keyboardType="phone-pad"
+                  value={form.amount}
                 />
               </View>
               <View style={loansStyles.inputContainer}>
@@ -92,15 +116,17 @@ export const PaymentScreen = () => {
                   style={loansStyles.input}
                   placeholder="Reason"
                   onChangeText={value => onChange(value, 'reason')}
+                  value={form.reason}
                 />
               </View>
               <TouchableOpacity
-                style={loansStyles.button}
-                disabled={hasError ? true : false}>
+                style={{...loansStyles.button, backgroundColor: appColor}}
+                disabled={hasError ? true : false}
+                onPress={handleClick}>
                 <Text style={loansStyles.buttonText}>Send payment</Text>
               </TouchableOpacity>
             </View>
-            <Text>{JSON.stringify(form, null, 5)}</Text>
+            {/* <Text>{JSON.stringify(form, null, 5)}</Text> */}
             <View style={{height: 100}} />
           </View>
         </TouchableWithoutFeedback>
