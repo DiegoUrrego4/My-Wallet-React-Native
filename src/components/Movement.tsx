@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {accountStyles} from '../theme/accountScreenTheme';
+import currencyFormatter from 'currency-formatter';
 
 interface Props {
   imageUrl: string;
@@ -35,7 +36,7 @@ export const Movement = ({
           ...accountStyles.movementAmmount,
           color: typeOfMovement === 'income' ? 'green' : 'red',
         }}>
-        $ {quantity}
+        {currencyFormatter.format(Number(quantity), {code: 'COP'})}
       </Text>
     </View>
   );

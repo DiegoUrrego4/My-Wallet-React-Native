@@ -35,21 +35,21 @@ export const ChangeAppThemeScreen = ({navigation}: MyStackScreenProps) => {
       <View style={changeThemeStyles.themesContainer}>
         {/* Fila 1 */}
         <View style={changeThemeStyles.row}>
-          <ThemeCard title="Arts & Culture" />
-          <ThemeCard title="Arts & Culture" />
-          <ThemeCard title="Arts & Culture" />
+          <ThemeCard title="Original" color="#007AFF" />
+          <ThemeCard title="Cadet Blue" color="#429EA6" />
+          <ThemeCard title="Indigo Dye" color="#153B50" />
         </View>
         {/* Fila 2 */}
         <View style={changeThemeStyles.row}>
-          <ThemeCard title="Arts & Culture" />
-          <ThemeCard title="Arts & Culture" />
-          <ThemeCard title="Arts & Culture" />
+          <ThemeCard title="Charcoal" color="#2A3D45" />
+          <ThemeCard title="French Bistre" color="#7A6C5D" />
+          <ThemeCard title="Cornflower Blue" color="#758BFD" />
         </View>
         {/* Fila 3 */}
         <View style={changeThemeStyles.row}>
-          <ThemeCard title="Arts & Culture" />
-          <ThemeCard title="Arts & Culture" />
-          <ThemeCard title="Arts & Culture" />
+          <ThemeCard title="Dark Sienna" color="#421820" />
+          <ThemeCard title="Old Rose" color="#C17C74" />
+          <ThemeCard title="Morning Blue" color="#8E9B90" />
         </View>
       </View>
       <View style={changeThemeStyles.buttonsContainer}>

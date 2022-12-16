@@ -21,12 +21,20 @@ export const changeThemeStyles = StyleSheet.create({
     // backgroundColor: 'green',
   },
   themeCard: {
-    backgroundColor: '#BFBFBF',
+    backgroundColor: '#FAFAFA',
     height: 150,
     width: 110,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 0.43,
+    shadowRadius: 9.51,
+    elevation: 15,
   },
   cardImage: {
     height: 50,
@@ -34,7 +42,8 @@ export const changeThemeStyles = StyleSheet.create({
     marginVertical: 10,
   },
   cardText: {
-    fontSize: 15,
+    fontSize: 13,
+    fontWeight: 'bold',
   },
   row: {
     flexDirection: 'row',

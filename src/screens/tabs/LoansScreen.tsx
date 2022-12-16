@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -12,18 +12,19 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {loansStyles} from '../../theme/loansTheme';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/store/store';
-import {useFetch} from '../../hooks/useFetch';
 import {useForm} from '../../hooks/useForm';
+import currencyFormatter from 'currency-formatter';
+import {useSelector} from 'react-redux';
+import {createMovement, getAccountBalance, useAppDispatch} from '../../hooks';
+import {RootState} from '../../redux/store/store';
 
 export const LoansScreen = () => {
-  const {userData} = useSelector((state: RootState) => state.auth);
-  const {email} = userData;
-  const {data} = useFetch(`/clients/${email}`);
+  const dispatch = useAppDispatch();
   const {
-    account: {credit, id: clientId},
-  } = data;
+    data: {id = '', credit, appColor},
+  } = useSelector((state: RootState) => state.account);
+  const {userData} = useSelector((stateA: RootState) => stateA.auth);
+  const {email = ''} = userData;
 
   const {form, onChange, resetForm} = useForm({
     idIncome: '',
@@ -33,23 +34,24 @@ export const LoansScreen = () => {
     fees: 60,
   });
 
-  form.idIncome = clientId;
-  form.idOutcome = clientId;
+  form.idIncome = id;
+  form.idOutcome = id;
 
-  const createMovement = async () => {
+  const handleClick = () => {
     try {
-      await fetch('http://192.168.1.25:3000/api/v1/movements', {
-        method: 'POST',
-        body: JSON.stringify(form),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      dispatch(createMovement(email, form));
       resetForm();
     } catch (error) {
-      console.log('ERROR', error);
+      console.log('ERROr', error);
     }
   };
+
+  // const {colorState} = useAppColor();
+
+  useEffect(() => {
+    dispatch(getAccountBalance(email));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -61,7 +63,9 @@ export const LoansScreen = () => {
               <Icon name="logo-euro" size={30} />
               <View>
                 <Text style={loansStyles.amountText}>Cupo Disponible</Text>
-                <Text style={loansStyles.amount}>${credit}</Text>
+                <Text style={loansStyles.amount}>
+                  {currencyFormatter.format(Number(credit), {code: 'COP'})}
+                </Text>
               </View>
             </View>
             <View style={loansStyles.inputContainer}>
@@ -84,11 +88,11 @@ export const LoansScreen = () => {
               />
             </View>
             <TouchableOpacity
-              style={loansStyles.button}
-              onPress={createMovement}>
+              style={{...loansStyles.button, backgroundColor: appColor}}
+              onPress={handleClick}>
               <Text style={loansStyles.buttonText}>Apply for loan</Text>
             </TouchableOpacity>
-            <Text>{JSON.stringify(form, null, 5)}</Text>
+            {/* <Text>{JSON.stringify(form, null, 5)}</Text> */}
             <View style={{height: 100}} />
           </View>
         </TouchableWithoutFeedback>

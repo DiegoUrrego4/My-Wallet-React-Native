@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -11,19 +11,24 @@ import {
   Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
 import {useFetch} from '../../hooks/useFetch';
-import {RootState} from '../../redux/store/store';
 import {loansStyles} from '../../theme/loansTheme';
 import {useForm} from '../../hooks/useForm';
+import currencyFormatter from 'currency-formatter';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store/store';
+import {useAppDispatch} from '../../hooks/hooks';
+import {getAccountBalance, createMovement} from '../../hooks/thunks';
 
 export const PaymentScreen = () => {
-  const {userData} = useSelector((state: RootState) => state.auth);
-
+  const dispatch = useAppDispatch();
+  const {data} = useSelector((state: RootState) => state.account);
+  const {userData} = useSelector((stateA: RootState) => stateA.auth);
+  const {email = ''} = userData;
+  const {balance = '', id: idOutcome, appColor} = data;
   const {form, onChange, resetForm} = useForm({
     idIncome: '',
     idOutcome: '',
-    // user: '',
     amount: '',
     reason: '',
     fees: 0,
@@ -36,12 +41,7 @@ export const PaymentScreen = () => {
   } = useForm({
     user: '',
   });
-
-  const {email} = userData;
-  const {data} = useFetch(`/clients/${email}`);
-  const {
-    account: {balance, id: idOutcome},
-  } = data;
+  // const {createMovement} = useGetBalance();
 
   const {data: clientToPay, hasError} = useFetch(`/clients/${userForm.user}`);
 
@@ -51,21 +51,20 @@ export const PaymentScreen = () => {
   form.idIncome = idIncome || '';
   form.idOutcome = idOutcome || '';
 
-  const createMovement = async () => {
+  const handleClick = () => {
     try {
-      await fetch('http://192.168.1.25:3000/api/v1/movements', {
-        method: 'POST',
-        body: JSON.stringify(form),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      dispatch(createMovement(email, form));
       resetForm();
       resetUserForm();
     } catch (error) {
-      console.log('ERROR', error);
+      console.log('ERROr', error);
     }
   };
+
+  useEffect(() => {
+    dispatch(getAccountBalance(email));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -74,7 +73,11 @@ export const PaymentScreen = () => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={loansStyles.mainContainer}>
             <View style={loansStyles.accountContainer}>
-              <Text style={loansStyles.accountValue}>${balance}</Text>
+              <Text style={loansStyles.accountValue}>
+                {currencyFormatter.format(Number(balance), {
+                  code: 'COP',
+                })}
+              </Text>
               <Text style={loansStyles.accountText}>Account balance</Text>
             </View>
             <View style={loansStyles.inputsContainer}>
@@ -117,13 +120,13 @@ export const PaymentScreen = () => {
                 />
               </View>
               <TouchableOpacity
-                style={loansStyles.button}
+                style={{...loansStyles.button, backgroundColor: appColor}}
                 disabled={hasError ? true : false}
-                onPress={createMovement}>
+                onPress={handleClick}>
                 <Text style={loansStyles.buttonText}>Send payment</Text>
               </TouchableOpacity>
             </View>
-            <Text>{JSON.stringify(form, null, 5)}</Text>
+            {/* <Text>{JSON.stringify(form, null, 5)}</Text> */}
             <View style={{height: 100}} />
           </View>
         </TouchableWithoutFeedback>

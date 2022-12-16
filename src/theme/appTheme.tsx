@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 export const colors = {
-  appColor: '#007aff',
+  appColor: '#007eff',
   appTextColor: '#FFF',
   datesColor: '#989898',
 };

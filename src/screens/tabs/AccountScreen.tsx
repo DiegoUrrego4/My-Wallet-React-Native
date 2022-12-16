@@ -4,12 +4,11 @@ import {accountStyles} from '../../theme/accountScreenTheme';
 import {Movement} from '../../components/Movement';
 import {ScrollView} from 'react-native-gesture-handler';
 import {MyStackScreenProps} from '../../interfaces/MyStackScreenProps';
-
+import currencyFormatter from 'currency-formatter';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store/store';
-import {useFetch} from '../../hooks/useFetch';
-import {Come} from '../../interfaces/accountInterface';
-// import {useGetMovementPicture} from '../../helpers/getMovementPicture';
+import {getAccountBalance, useAppDispatch} from '../../hooks';
+import {getAccountMovements} from '../../hooks/thunks';
 
 export const AccountScreen = ({navigation}: MyStackScreenProps) => {
   useEffect(() => {
@@ -36,33 +35,37 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
     return () => backHandler.remove();
   }, [navigation]);
 
+  const dispatch = useAppDispatch();
   const {userData} = useSelector((state: RootState) => state.auth);
-  const {email} = userData;
+  const {email = ''} = userData;
   console.log('Email', email);
-  const {data} = useFetch(`/clients/${email}`);
-  const {
-    account: {balance, id: accountId},
-  } = data;
+  const {data} = useSelector((state: RootState) => state.account);
+  const {balance, id = '', incomes = [], outcomes = [], appColor} = data;
 
-  const {data: accountData} = useFetch(`/account/${accountId}`);
-  const {incomes = [], outcomes = []} = accountData;
+  const filteredOutcomes = outcomes?.filter(outcome => outcome.fees === 0);
 
-  const filteredOutcomes: Come[] = outcomes.filter(
-    (outcome: Come) => outcome.fees === 0,
-  );
-
-  // useGetMovementPicture(incomes);
+  useEffect(() => {
+    dispatch(getAccountBalance(email));
+    dispatch(getAccountMovements(id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balance]);
 
   return (
     <View style={accountStyles.screenContainer}>
-      <View style={accountStyles.balanceContainer}>
-        <Text style={accountStyles.balanceMoney}>${balance}</Text>
+      <View
+        style={{
+          ...accountStyles.balanceContainer,
+          backgroundColor: appColor,
+        }}>
+        <Text style={accountStyles.balanceMoney}>
+          {currencyFormatter.format(Number(balance), {code: 'COP'})}
+        </Text>
         {/* <Text style={accountStyles.balanceMoney}>$12</Text> */}
         <Text style={accountStyles.balanceText}>Balance in your account</Text>
       </View>
       <View style={accountStyles.movementsContainer}>
         <ScrollView>
-          {incomes.map((income: Come) => (
+          {incomes.map((income: any) => (
             <Movement
               key={income.id}
               imageUrl={income.pictureOutcome}
@@ -72,7 +75,7 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
               typeOfMovement={'income'}
             />
           ))}
-          {filteredOutcomes.map((outcome: Come) => (
+          {filteredOutcomes.map((outcome: any) => (
             <Movement
               key={outcome.id}
               imageUrl={outcome.pictureIncome}
