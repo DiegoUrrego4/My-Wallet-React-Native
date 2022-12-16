@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -17,8 +17,17 @@ import {useForm} from '../../hooks/useForm';
 import {useAppColor} from '../../hooks/useAppColor';
 import currencyFormatter from 'currency-formatter';
 import {useGetBalance} from '../../hooks/useGetBalance';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store/store';
+import {useAppDispatch} from '../../hooks/hooks';
+import {getAccountBalance, createMovement} from '../../hooks/thunks';
 
 export const PaymentScreen = () => {
+  const dispatch = useAppDispatch();
+  const {data} = useSelector((state: RootState) => state.account);
+  const {userData} = useSelector((stateA: RootState) => stateA.auth);
+  const {email = ''} = userData;
+  const {balance = '', id: idOutcome} = data;
   const {form, onChange, resetForm} = useForm({
     idIncome: '',
     idOutcome: '',
@@ -34,7 +43,7 @@ export const PaymentScreen = () => {
   } = useForm({
     user: '',
   });
-  const {balance, idOutcome} = useGetBalance();
+  // const {createMovement} = useGetBalance();
 
   const {data: clientToPay, hasError} = useFetch(`/clients/${userForm.user}`);
 
@@ -44,23 +53,22 @@ export const PaymentScreen = () => {
   form.idIncome = idIncome || '';
   form.idOutcome = idOutcome || '';
 
-  const createMovement = async () => {
+  const {colorState} = useAppColor();
+
+  const handleClick = () => {
     try {
-      await fetch('http://192.168.1.25:3000/api/v1/movements', {
-        method: 'POST',
-        body: JSON.stringify(form),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      dispatch(createMovement(email, form));
       resetForm();
       resetUserForm();
     } catch (error) {
-      console.log('ERROR', error);
+      console.log('ERROr', error);
     }
   };
 
-  const {colorState} = useAppColor();
+  useEffect(() => {
+    dispatch(getAccountBalance(email));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -118,7 +126,7 @@ export const PaymentScreen = () => {
               <TouchableOpacity
                 style={{...loansStyles.button, backgroundColor: colorState}}
                 disabled={hasError ? true : false}
-                onPress={createMovement}>
+                onPress={handleClick}>
                 <Text style={loansStyles.buttonText}>Send payment</Text>
               </TouchableOpacity>
             </View>

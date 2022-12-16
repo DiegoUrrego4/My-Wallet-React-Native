@@ -5,13 +5,17 @@ import {Movement} from '../../components/Movement';
 import {ScrollView} from 'react-native-gesture-handler';
 import {MyStackScreenProps} from '../../interfaces/MyStackScreenProps';
 
-import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/store/store';
+// import {useSelector} from 'react-redux';
+// import {RootState} from '../../redux/store/store';
 import {useFetch} from '../../hooks/useFetch';
 import {Come} from '../../interfaces/accountInterface';
 // import {useGetMovementPicture} from '../../helpers/getMovementPicture';
 import {useAppColor} from '../../hooks/useAppColor';
 import currencyFormatter from 'currency-formatter';
+import {useGetBalance} from '../../hooks/useGetBalance';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store/store';
+import {getAccountBalance, useAppDispatch} from '../../hooks';
 
 export const AccountScreen = ({navigation}: MyStackScreenProps) => {
   useEffect(() => {
@@ -38,15 +42,21 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
     return () => backHandler.remove();
   }, [navigation]);
 
+  const dispatch = useAppDispatch();
   const {userData} = useSelector((state: RootState) => state.auth);
-  const {email} = userData;
+  const {email = ''} = userData;
   console.log('Email', email);
-  const {data} = useFetch(`/clients/${email}`);
-  const {
-    account: {balance, id: accountId},
-  } = data;
+  const {data} = useSelector((state: RootState) => state.account);
+  const {balance, id} = data;
 
-  const {data: accountData} = useFetch(`/account/${accountId}`);
+  // const {data} = useFetch(`/clients/${email}`);
+  // const {
+  //   account: {balance, id: accountId},
+  // } = data;
+  // const {balance, idOutcome} = useGetBalance();
+  // console.log('ID', idOutcome);
+
+  const {data: accountData} = useFetch(`/account/${id}`);
   const {incomes = [], outcomes = []} = accountData;
 
   const filteredOutcomes: Come[] = outcomes.filter(
@@ -56,6 +66,11 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
   const {colorState = '#007AFF'} = useAppColor();
   console.log('COLOR STATE!', colorState);
 
+  useEffect(() => {
+    dispatch(getAccountBalance(email));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <View style={accountStyles.screenContainer}>
       <View
@@ -64,7 +79,7 @@ export const AccountScreen = ({navigation}: MyStackScreenProps) => {
           backgroundColor: colorState,
         }}>
         <Text style={accountStyles.balanceMoney}>
-          {currencyFormatter.format(balance, {code: 'COP'})}
+          {currencyFormatter.format(Number(balance), {code: 'COP'})}
         </Text>
         {/* <Text style={accountStyles.balanceMoney}>$12</Text> */}
         <Text style={accountStyles.balanceText}>Balance in your account</Text>

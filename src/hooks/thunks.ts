@@ -9,6 +9,7 @@ import {
   startLogin,
   UserData,
 } from '../redux/slices/authSlice';
+import {setBalance, setUserData} from '../redux/slices/accountSlice';
 
 const auth0 = new Auth0({
   domain: 'dev-gsziwkfju7op66gz.us.auth0.com',
@@ -118,6 +119,42 @@ export const createClient = (userData: UserData) => {
       dispatch(setRegister(true));
     } catch (error) {
       console.log(error);
+    }
+  };
+};
+
+export const getAccountBalance = (clientEmail: string) => {
+  console.log('CLIENT EMAIL', clientEmail);
+  return async (dispatch: any) => {
+    try {
+      const resp = await fetch(
+        `http://192.168.1.25:3000/api/v1/clients/${clientEmail}`,
+      );
+      const data = await resp.json();
+      const {
+        account: {balance, id: idOutcome, credit},
+      } = data;
+      dispatch(setUserData({balance, id: idOutcome, credit}));
+    } catch (error) {
+      console.log('ERROR', error);
+    }
+  };
+};
+
+export const createMovement = (clientEmail: string, form: any) => {
+  console.log('FORM', form);
+  return async (dispatch: any) => {
+    try {
+      await fetch('http://192.168.1.25:3000/api/v1/movements', {
+        method: 'POST',
+        body: JSON.stringify(form),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      dispatch(getAccountBalance(clientEmail));
+    } catch (error: any) {
+      throw Error(error.message);
     }
   };
 };

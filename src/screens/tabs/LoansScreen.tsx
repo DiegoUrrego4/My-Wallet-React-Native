@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -12,24 +12,29 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {loansStyles} from '../../theme/loansTheme';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../redux/store/store';
-import {useFetch} from '../../hooks/useFetch';
 import {useForm} from '../../hooks/useForm';
 import {useAppColor} from '../../hooks/useAppColor';
 import currencyFormatter from 'currency-formatter';
 // import {useGetBalance} from '../../hooks/useGetBalance';
+import {useSelector} from 'react-redux';
+import {getAccountBalance, useAppDispatch} from '../../hooks';
+import {RootState} from '../../redux/store/store';
+import {useFetch} from '../../hooks/useFetch';
 
 export const LoansScreen = () => {
+  // const {credit, idOutcome: clientId} = useGetBalance();
+  // const dispatch = useAppDispatch();
+  // const {data} = useSelector((state: RootState) => state.account);
+  // const {userData} = useSelector((stateA: RootState) => stateA.auth);
+  // const {email = ''} = userData;
+  // const {credit, id: clientId} = data;
+
   const {userData} = useSelector((state: RootState) => state.auth);
   const {email} = userData;
   const {data} = useFetch(`/clients/${email}`);
   const {
     account: {credit, id: clientId},
   } = data;
-  // const {credit, idOutcome: clientId} = useGetBalance();
-
-  console.log('CREDIT', credit);
 
   const {form, onChange, resetForm} = useForm({
     idIncome: '',
@@ -58,6 +63,11 @@ export const LoansScreen = () => {
   };
 
   const {colorState} = useAppColor();
+
+  // useEffect(() => {
+  //   dispatch(getAccountBalance(email));
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <KeyboardAvoidingView
